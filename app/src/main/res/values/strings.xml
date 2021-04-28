@@ -4,12 +4,22 @@
     <string name="add_task">Add Task</string>
     <string name="my_tasks">My Tasks</string>
     <string name="title_activity_all_tasks">AllTasks</string>
-    <!--
-    This string is used for square devices and overridden by hello_world in
-    values-round/strings.xml for round devices.
-    -->
-    <string name="hello_world">Hello Square World!</string>
+    <string name="your_name">Your Name</string>
     <string name="all_tasks_heading">All Tasks</string>
     <string name="add_task_heading">Add Task</string>
+    <string name="settings_heading">Settings</string>
     <string name="title_activity_add_task">Add Task</string>
+    <string name="add_your_name">Add your name</string>
+    <string name="save">Save</string>
+    <string name="shared_preferences_name">edhou.taskmaster</string>
+    <string name="user_details_shared_preferences">edhou.taskmaster.user_details</string>
+    <string name="task1_name">Do the dishes</string>
+    <string name="task1_description">Scrub \'em real good</string>
+    <string name="task2_name">Mow the lawn</string>
+    <string name="task2_description">Mow them grasses real short</string>
+    <string name="task3_name">Grill the burgers</string>
+    <string name="task3_description">Grill them burgers up real tasty</string>
+    <string name="task4_name">Eat the food</string>
+    <string name="task4_description">Eat that food real yum yum</string>
+
 </resources>

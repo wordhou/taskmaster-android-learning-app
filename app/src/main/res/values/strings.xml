@@ -21,5 +21,9 @@
     <string name="task3_description">Grill them burgers up real tasty</string>
     <string name="task4_name">Eat the food</string>
     <string name="task4_description">Eat that food real yum yum</string>
+    <string name="status_new">New task</string>
+    <string name="status_assigned">Assigned</string>
+    <string name="status_in_progress">In progress</string>
+    <string name="status_complete">Complete</string>
 
 </resources>

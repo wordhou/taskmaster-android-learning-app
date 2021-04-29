@@ -26,10 +26,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/addTaskButton" />
+        app:layout_constraintStart_toEndOf="@+id/addTaskLinkButton" />
 
     <Button
-        android:id="@+id/addTaskButton"
+        android:id="@+id/addTaskLinkButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_task"
@@ -55,7 +55,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/addTaskButton"
+        app:layout_constraintBottom_toTopOf="@+id/addTaskLinkButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/myTasksHeading" />

@@ -32,3 +32,12 @@ I added a settings activity that allows a user to enter their name and save it.
 
 Finally I added a list to the main detail that lists tasks. Currently the data source is a hard coded list.
 ![Main view from day 2](screenshots/day-2-main-task-list.jpg)
+
+## Day 3
+
+I implemented a mock database access object that keeps the mock database in memory as a list. Then I created a singleton manager that delivers an instance of the mock database access object to the activities that need it. The main activity needs the mock DAO to populate the RecyclerView list, and the task detail activity needs the mock DAO to populate the task detail view, and the add task activity needs the mock DAO to actually add a new task to the mock database.
+
+![Main view from day 3](screenshots/day-3-main-task-list.jpg)
+![Add task view from day 3](screenshots/day-3-add-task.jpg)
+
+I also added a Task status to my Task model and added some methods to the Status class that render a Status as a string from our string resources file.

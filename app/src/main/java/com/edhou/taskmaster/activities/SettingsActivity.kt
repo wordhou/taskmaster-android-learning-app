@@ -10,7 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.edhou.taskmaster.R
 
-class Settings : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity() {
     lateinit var prefs: SharedPreferences
     lateinit var editPrefs: SharedPreferences.Editor
 
@@ -31,7 +31,7 @@ class Settings : AppCompatActivity() {
 
     fun saveSettings() {
         findViewById<EditText>(R.id.editUserName)?.getText().toString().let {
-            Toast.makeText(this@Settings, "Saving...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@SettingsActivity, "Saving...", Toast.LENGTH_SHORT).show()
             editPrefs.putString("name", it)
             editPrefs.apply()
         }

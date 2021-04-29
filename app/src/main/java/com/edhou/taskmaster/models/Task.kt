@@ -1,7 +1,8 @@
 package com.edhou.taskmaster.models
 
 data class Task(
-        val id: Long,
+        var id: Long?,
         val name: String,
-        val description: String
+        val description: String,
+        val status: Status
 )

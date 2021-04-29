@@ -13,6 +13,7 @@ class TasksListViewModel() : ViewModel() {
 class TasksListViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(TasksListViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
             return TasksListViewModel() as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

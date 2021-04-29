@@ -14,12 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TaskMaster">
         <activity android:name=".activities.TaskDetailActivity"></activity>
-        <activity android:name=".activities.Settings" />
+        <activity android:name=".activities.SettingsActivity" />
         <activity
-            android:name=".activities.AllTasks"
+            android:name=".activities.AllTasksActivity"
             android:label="@string/title_activity_all_tasks" />
         <activity
-            android:name=".activities.AddTask"
+            android:name=".activities.AddTaskActivity"
             android:label="@string/title_activity_add_task" />
         <activity
             android:name=".activities.MainActivity"

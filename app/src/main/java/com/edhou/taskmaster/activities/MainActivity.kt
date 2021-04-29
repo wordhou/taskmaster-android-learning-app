@@ -3,45 +3,46 @@ package com.edhou.taskmaster.activities
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.edhou.taskmaster.R
+import com.edhou.taskmaster.models.MockListDao
+import com.edhou.taskmaster.models.MockListDaoManager
 import com.edhou.taskmaster.models.Task
-import com.edhou.taskmaster.models.tasksList
 import com.edhou.taskmaster.taskList.TasksAdapter
-import com.edhou.taskmaster.taskList.TasksListViewModel
-import com.edhou.taskmaster.taskList.TasksListViewModelFactory
 
 class MainActivity : AppCompatActivity() {
-    val TAG = "MAINDEBUG"
+    private val TAG = "MAINDEBUG"
     lateinit var prefs: SharedPreferences
-    private val tasksListViewModel by viewModels<TasksListViewModel> { TasksListViewModelFactory(this) }
+    lateinit var tasksAdapter: TasksAdapter
+
+    lateinit private var mockListDao : MockListDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<Button>(R.id.addTaskButton)?.setOnClickListener {
-            startActivity(Intent(this@MainActivity, AddTask::class.java)) }
+        mockListDao = MockListDaoManager.getInstance(resources)
+
+
+        findViewById<Button>(R.id.addTaskLinkButton)?.setOnClickListener {
+            startActivity(Intent(this@MainActivity, AddTaskActivity::class.java)) }
 
         findViewById<Button>(R.id.allTasksButton)?.setOnClickListener {
-            startActivity(Intent(this@MainActivity, AllTasks::class.java)) }
+            startActivity(Intent(this@MainActivity, AllTasksActivity::class.java)) }
 
         findViewById<Button>(R.id.toSettingsButton)?.setOnClickListener{
-            startActivity(Intent(this, Settings::class.java)) }
+            startActivity(Intent(this, SettingsActivity::class.java)) }
 
         prefs = getSharedPreferences(getString(R.string.user_details_shared_preferences), MODE_PRIVATE)
 
 
-        val tasksAdapter = TasksAdapter { task -> adapterOnClick(task) }
-        tasksAdapter.submitList(tasksList(resources))
-        Log.i(TAG, "itemCount: ${tasksAdapter.itemCount}")
-        Log.i(TAG, "currentList: ${tasksAdapter.currentList}")
+        tasksAdapter = TasksAdapter ({ task -> adapterOnClick(task) }, resources )
+        tasksAdapter.submitList(mockListDao.getTasksList())
+
         val recyclerView: RecyclerView = findViewById(R.id.tasksRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(applicationContext)
         recyclerView.adapter = tasksAdapter;
@@ -56,6 +57,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
+        tasksAdapter.submitList(mockListDao.getTasksList())
         prefs.getString("name", null)?.let {
             findViewById<TextView>(R.id.myTasksHeading)?.setText("$it's Tasks", TextView.BufferType.NORMAL)
         }

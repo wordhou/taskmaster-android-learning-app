@@ -32,12 +32,7 @@ class TasksAdapter(private val onClick: (Task) -> Unit,
             currentTask = task
             taskNameTextView.text = task.name
             taskDescriptionTextView.text = task.description
-            taskStatusTextView.text = when(task.status) {
-                Status.NEW -> resources.getString(R.string.status_new)
-                Status.ASSIGNED -> resources.getString(R.string.status_assigned)
-                Status.IN_PROGRESS -> resources.getString(R.string.status_in_progress)
-                Status.COMPLETE -> resources.getString(R.string.status_complete)
-            }
+            taskStatusTextView.text = task.status.getString(resources)
         }
     }
 

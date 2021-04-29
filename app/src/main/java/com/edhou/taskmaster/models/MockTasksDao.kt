@@ -8,7 +8,7 @@ import com.edhou.taskmaster.R
 class MockListDao(resources: Resources) {
     private var greatestId : Long = 7;
 
-    private var tasksList: MutableList<Task> =listOf(
+    private var tasksList: MutableList<Task> = listOf(
                 Task(
                         id = 1,
                         name = resources.getString(R.string.task1_name),
@@ -29,24 +29,6 @@ class MockListDao(resources: Resources) {
                 ),
                 Task(
                         id = 4,
-                        name = resources.getString(R.string.task4_name),
-                        description = resources.getString(R.string.task4_description),
-                        status = Status.NEW
-                ),
-                Task(
-                        id = 5,
-                        name = resources.getString(R.string.task4_name),
-                        description = resources.getString(R.string.task4_description),
-                        status = Status.NEW
-                ),
-                Task(
-                        id = 6,
-                        name = resources.getString(R.string.task4_name),
-                        description = resources.getString(R.string.task4_description),
-                        status = Status.NEW
-                ),
-                Task(
-                        id = 7,
                         name = resources.getString(R.string.task4_name),
                         description = resources.getString(R.string.task4_description),
                         status = Status.NEW
@@ -76,7 +58,7 @@ class MockListDao(resources: Resources) {
     }
 
     public fun update(task: Task) {
-        tasksList.indexOfFirst { it.id == task.id }?.let {
+        tasksList.indexOfFirst { it.id == task.id }.let {
             tasksList.set(it, task)
         }
     }

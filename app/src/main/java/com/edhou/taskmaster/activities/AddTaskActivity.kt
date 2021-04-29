@@ -11,7 +11,7 @@ import com.edhou.taskmaster.models.MockListDaoManager
 import com.edhou.taskmaster.models.Status
 import com.edhou.taskmaster.models.Task
 
-class AddTask : AppCompatActivity() {
+class AddTaskActivity : AppCompatActivity() {
     lateinit private var submitAddTask: Button
     lateinit private var mockListDao: MockListDao
 
@@ -29,7 +29,7 @@ class AddTask : AppCompatActivity() {
 
         submitAddTask = findViewById(R.id.addTaskButton);
 
-        submitAddTask?.setOnClickListener { view -> submitTask() }
+        submitAddTask.setOnClickListener { _ -> submitTask() }
     }
 
     private fun submitTask() {

@@ -3,12 +3,10 @@ package com.edhou.taskmaster.activities
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.edhou.taskmaster.R
 import com.edhou.taskmaster.models.MockListDao
@@ -31,13 +29,13 @@ class MainActivity : AppCompatActivity() {
 
 
         findViewById<Button>(R.id.addTaskLinkButton)?.setOnClickListener {
-            startActivity(Intent(this@MainActivity, AddTask::class.java)) }
+            startActivity(Intent(this@MainActivity, AddTaskActivity::class.java)) }
 
         findViewById<Button>(R.id.allTasksButton)?.setOnClickListener {
-            startActivity(Intent(this@MainActivity, AllTasks::class.java)) }
+            startActivity(Intent(this@MainActivity, AllTasksActivity::class.java)) }
 
         findViewById<Button>(R.id.toSettingsButton)?.setOnClickListener{
-            startActivity(Intent(this, Settings::class.java)) }
+            startActivity(Intent(this, SettingsActivity::class.java)) }
 
         prefs = getSharedPreferences(getString(R.string.user_details_shared_preferences), MODE_PRIVATE)
 

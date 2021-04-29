@@ -10,6 +10,7 @@
     <string name="settings_heading">Settings</string>
     <string name="title_activity_add_task">Add Task</string>
     <string name="add_your_name">Add your name</string>
+    <string name="delete_task">Delete task</string>
     <string name="save">Save</string>
     <string name="shared_preferences_name">edhou.taskmaster</string>
     <string name="user_details_shared_preferences">edhou.taskmaster.user_details</string>

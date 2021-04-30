@@ -1,13 +1,12 @@
 package com.edhou.taskmaster.db
 
 import androidx.annotation.WorkerThread
-import androidx.room.Query
 import com.edhou.taskmaster.models.Task
 
 class TasksRepository(private val tasksDao: TasksDao) {
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun getTasksList() : List<Task> {
+    suspend fun getTasksList(): List<Task> {
         return tasksDao.getTasksList()
     }
 

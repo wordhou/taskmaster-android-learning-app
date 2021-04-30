@@ -31,7 +31,8 @@ enum class Status {
 
 class StatusConverters {
     @TypeConverter
-    fun toStatus(value: Int) : Status = enumValues<Status>()[value]
+    fun toStatus(value: Int): Status = enumValues<Status>()[value]
+
     @TypeConverter
     fun fromStatus(value: Status): Int = value.ordinal
 }

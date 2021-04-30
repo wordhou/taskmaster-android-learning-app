@@ -18,8 +18,8 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MAINDEBUG"
-    lateinit var prefs: SharedPreferences
-    lateinit var tasksAdapter: TasksAdapter
+    private lateinit var prefs: SharedPreferences
+    private lateinit var tasksAdapter: TasksAdapter
 
     lateinit private var application: TaskmasterApplication
 

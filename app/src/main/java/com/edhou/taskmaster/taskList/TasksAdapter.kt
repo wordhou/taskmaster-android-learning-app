@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.edhou.taskmaster.R
-import com.edhou.taskmaster.models.Status
 import com.edhou.taskmaster.models.Task
 
 class TasksAdapter(private val onClick: (Task) -> Unit,

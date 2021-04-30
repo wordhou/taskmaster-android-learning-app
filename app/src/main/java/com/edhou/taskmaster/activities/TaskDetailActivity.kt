@@ -15,7 +15,7 @@ const val TASK_ID = "TASK_ID"
 
 class TaskDetailActivity : AppCompatActivity() {
     // private val tasksListViewModel by viewModels<TasksListViewModel> { TasksListViewModelFactory(this) }
-    lateinit private var application: TaskmasterApplication
+    private lateinit var application: TaskmasterApplication
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,10 +34,10 @@ class TaskDetailActivity : AppCompatActivity() {
         val bundle: Bundle? = intent.extras
         bundle?.apply { currentTaskId = getLong(TASK_ID) }
 
-        lifecycleScope.launch (Dispatchers.IO) {
+        lifecycleScope.launch(Dispatchers.IO) {
             if (currentTaskId != null) {
-                var currentTask : Task = application.repository.findById(currentTaskId!!)
-                currentTask.apply {
+                currentTask = application.repository.findById(currentTaskId!!)
+                currentTask?.apply {
                     taskName.text = name
                     taskDescription.text = description
                     taskStatus.text = status.getString(resources)
@@ -49,7 +49,7 @@ class TaskDetailActivity : AppCompatActivity() {
             kotlin.run {
                 if (currentTask != null) {
                     lifecycleScope.launch {
-                        application.repository.delete(currentTask)
+                        application.repository.delete(currentTask!!)
                         finish()
                     }
                 }

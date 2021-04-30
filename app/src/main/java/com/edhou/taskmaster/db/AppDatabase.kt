@@ -8,15 +8,15 @@ import androidx.room.TypeConverters
 import com.edhou.taskmaster.models.StatusConverters
 import com.edhou.taskmaster.models.Task
 
-@Database(entities = arrayOf(Task::class), version=1, exportSchema = false)
+@Database(entities = arrayOf(Task::class), version = 1, exportSchema = false)
 @TypeConverters(StatusConverters::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun tasksDao() : TasksDao
+    abstract fun tasksDao(): TasksDao
 
     companion object {
         private var INSTANCE: AppDatabase? = null
 
-        public fun getInstance(context: Context): AppDatabase {
+        fun getInstance(context: Context): AppDatabase {
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database
             return INSTANCE ?: synchronized(this) {

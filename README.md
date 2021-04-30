@@ -41,3 +41,9 @@ I implemented a mock database access object that keeps the mock database in memo
 ![Add task view from day 3](screenshots/day-3-add-task.jpg)
 
 I also added a Task status to my Task model and added some methods to the Status class that render a Status as a string from our string resources file.
+
+## Day 4
+
+I added the real database using Room, by defining my `TasksDao` and `AppDatabase`, and also wrapped all of the database queries in a `TasksRepository` class. I had to implement a Singleton manager pattern in the `AppDatabase` and then added a singleton instance to the `Application` object to make it available to all the activities. Then I replaced all the calls to my `MockListDao` with the real repository and wrapped those calls in coroutines that ran on IO threads to not block the main thread with database queries.
+
+![Main view from day 4](screenshots/day-4-main-task-list.png)

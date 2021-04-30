@@ -1,12 +1,14 @@
-package com.edhou.taskmaster.models
+package com.edhou.taskmaster.db
 
 import android.content.res.Resources
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.edhou.taskmaster.R
+import com.edhou.taskmaster.models.Status
+import com.edhou.taskmaster.models.Task
 
 class MockListDao(resources: Resources) {
-    private var greatestId : Long = 7;
+    private var greatestId : Long = 4;
 
     private var tasksList: MutableList<Task> = listOf(
                 Task(

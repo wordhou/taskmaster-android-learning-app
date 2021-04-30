@@ -6,9 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.edhou.taskmaster.models.Task
 import java.lang.IllegalArgumentException
 
-class TasksListViewModel() : ViewModel() {
-
-}
+class TasksListViewModel : ViewModel()
 
 class TasksListViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

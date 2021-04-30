@@ -1,6 +1,7 @@
 package com.edhou.taskmaster.models
 
 import android.content.res.Resources
+import androidx.room.TypeConverter
 import com.edhou.taskmaster.R
 
 enum class Status {
@@ -26,4 +27,11 @@ enum class Status {
     };
 
     abstract fun getString(resources: Resources): String
+}
+
+class StatusConverters {
+    @TypeConverter
+    fun toStatus(value: Int) : Status = enumValues<Status>()[value]
+    @TypeConverter
+    fun fromStatus(value: Status): Int = value.ordinal
 }

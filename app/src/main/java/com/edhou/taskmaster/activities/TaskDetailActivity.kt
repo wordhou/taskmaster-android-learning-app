@@ -48,7 +48,7 @@ class TaskDetailActivity : AppCompatActivity() {
         findViewById<Button>(R.id.deleteTaskButton)?.setOnClickListener {
             kotlin.run {
                 if (currentTask != null) {
-                    lifecycleScope.launch {
+                    lifecycleScope.launch(Dispatchers.IO) {
                         application.repository.delete(currentTask!!)
                         finish()
                     }

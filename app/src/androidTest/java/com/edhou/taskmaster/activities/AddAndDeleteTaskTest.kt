@@ -72,7 +72,7 @@ class AddAndDeleteTaskTest {
         appCompatEditText2.perform(replaceText("Test1234"), closeSoftKeyboard())
 
         val materialButton2 = onView(
-                allOf(withId(R.id.addTaskButton), withText("Button"),
+                allOf(withId(R.id.addTaskButton), withText("Submit Task"),
                         childAtPosition(
                                 allOf(withId(R.id.constraintLayout),
                                         childAtPosition(

@@ -1,35 +1,35 @@
 package com.edhou.taskmaster.db
 
-import androidx.annotation.WorkerThread
+import com.amplifyframework.datastore.generated.model.TaskData
 import com.edhou.taskmaster.models.Task
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 class TasksRepository(private val tasksDao: TasksDao) {
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    suspend fun getTasksList(): List<Task> {
+    fun getTasksList(): Flow<List<Task>> {
         return tasksDao.getTasksList()
+    };
+
+    fun findById(id: String): Flow<Task> {
+        return tasksDao.findById(id).distinctUntilChanged()
     }
 
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    suspend fun findById(id: Long): Task {
-        return tasksDao.findById(id)
+    suspend fun insert(taskData: TaskData) {
+        tasksDao.insert(Task.fromAmplify(taskData))
     }
 
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
     suspend fun insert(task: Task) {
         tasksDao.insert(task)
     }
 
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
     suspend fun delete(task: Task) {
         tasksDao.delete(task)
     }
 
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
+    suspend fun delete(taskData: TaskData) {
+        tasksDao.delete(Task.fromAmplify(taskData))
+    }
+
     suspend fun update(task: Task) {
         tasksDao.update(task)
     }

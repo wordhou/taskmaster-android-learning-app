@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
+import com.amplifyframework.datastore.generated.model.Status
+import com.amplifyframework.datastore.generated.model.TaskData
 import com.edhou.taskmaster.R
 import com.edhou.taskmaster.TaskmasterApplication
 import com.edhou.taskmaster.models.*
@@ -31,12 +33,13 @@ class AddTaskActivity : AppCompatActivity() {
     }
 
     private fun submitTask() {
-        val newTask = Task(id = null,
-                name = editTaskName.text.toString(),
-                description = editTaskDescription.text.toString(),
-                status = Status.NEW)
+        val newTask = TaskData.builder()
+                .name(editTaskName.text.toString())
+                .description(editTaskDescription.text.toString())
+                .status(Status.NEW)
+                .build()
         lifecycleScope.launch(Dispatchers.IO) {
-            application.repository.insert(newTask)
+            application.tasksRepository.insert(newTask)
         }
         finish()
     }

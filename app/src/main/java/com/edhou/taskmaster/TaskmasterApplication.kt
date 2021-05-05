@@ -10,7 +10,7 @@ import com.edhou.taskmaster.db.TasksRepository
 
 class TaskmasterApplication : Application() {
     val database by lazy { AppDatabase.getInstance(this) }
-    val repository by lazy { TasksRepository(database.tasksDao()) }
+    val tasksRepository by lazy { TasksRepository(database.tasksDao()) }
     override fun onCreate() {
         super.onCreate()
         try {

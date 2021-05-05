@@ -1,8 +1,21 @@
-type TaskData @model {
+type TaskData @model
+  @key(name: "byTeam", fields: ["teamID"]) {
   id: ID!
   name: String!
   description: String
   status: Status
+  teamID: ID!
+  team: TeamData @connection(fields: ["teamID"])
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type TeamData @model {
+  id: ID!
+  name: String!
+  tasks: [TaskData] @connection(keyName: "byTeam", fields: ["id"])
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
 }
 
 enum Status {

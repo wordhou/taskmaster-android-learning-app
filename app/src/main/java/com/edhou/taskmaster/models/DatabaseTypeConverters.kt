@@ -4,7 +4,7 @@ import androidx.room.TypeConverter
 import com.amplifyframework.core.model.temporal.Temporal
 import com.amplifyframework.datastore.generated.model.Status
 
-class TypeConverters {
+class DatabaseTypeConverters {
     @TypeConverter
     fun toStatus(value: Int): Status = enumValues<Status>()[value]
 

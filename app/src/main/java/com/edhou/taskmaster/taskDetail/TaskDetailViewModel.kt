@@ -2,7 +2,7 @@ package com.edhou.taskmaster.taskDetail
 
 import android.content.Context
 import androidx.lifecycle.*
-import com.amplifyframework.datastore.generated.model.Status
+import com.amplifyframework.datastore.generated.model.TaskData
 import com.edhou.taskmaster.TaskmasterApplication
 import com.edhou.taskmaster.db.TasksRepository
 import com.edhou.taskmaster.models.Task
@@ -14,13 +14,13 @@ import java.lang.IllegalArgumentException
 
 class TaskDetailViewModel(val tasksRepository: TasksRepository) : ViewModel() {
     private var taskId: String = ""
-    val _task: MutableLiveData<Task> = MutableLiveData()
-    val task: LiveData<Task>
+    val _task: MutableLiveData<TaskData> = MutableLiveData()
+    val task: LiveData<TaskData>
         get() = _task
 
     fun setTaskId(id: String) {
         if (id != taskId) {
-            tasksRepository.findById(id).onEach { _task.value = it }.launchIn(viewModelScope)
+            tasksRepository.findByIdFlow(id).onEach { _task.value = it }.launchIn(viewModelScope)
             taskId = id
         }
     }
@@ -42,5 +42,4 @@ class TaskDetailViewModelFactory(private val context: Context) : ViewModelProvid
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
-
 }

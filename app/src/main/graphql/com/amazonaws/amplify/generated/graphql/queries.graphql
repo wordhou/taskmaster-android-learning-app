@@ -5,6 +5,13 @@ query GetTaskData($id: ID!) {
     name
     description
     status
+    teamID
+    team {
+      id
+      name
+      createdAt
+      updatedAt
+    }
     createdAt
     updatedAt
   }
@@ -20,6 +27,33 @@ query ListTaskDatas(
       name
       description
       status
+      teamID
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}
+query GetTeamData($id: ID!) {
+  getTeamData(id: $id) {
+    id
+    name
+    tasks {
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+query ListTeamDatas(
+  $filter: ModelTeamDataFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listTeamDatas(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
       createdAt
       updatedAt
     }

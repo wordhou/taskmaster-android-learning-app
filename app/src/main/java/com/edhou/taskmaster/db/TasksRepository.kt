@@ -10,27 +10,44 @@ import com.edhou.taskmaster.models.Task
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
+import javax.security.auth.login.LoginException
 
 class TasksRepository(private val tasksDao: TasksDao) {
     companion object {
         const val TAG = "TasksRepo"
     }
 
-    fun getTasksList(): Flow<List<Task>> = flow {
+    fun getTasksListFlow(): Flow<List<TaskData>> = flow {
         val items = Amplify.API
                 .query(ModelQuery.list(TaskData::class.java)).data.items
-        emit(items.map{ taskData -> Task.fromAmplify(taskData) })
+        emit(items.toList())
+        //emit(items.map{ taskData -> Task.fromAmplify(taskData) })
         //tasksDao.getTasksList()
     }
 
-    fun findById(id: String): Flow<Task> = flow {
-        val taskData = Amplify.API.query(ModelQuery.get(TaskData::class.java, id)).data
-        emit(Task.fromAmplify(taskData))
+    suspend fun getTasksList(): List<TaskData> {
+        val items = Amplify.API
+                .query(ModelQuery.list(TaskData::class.java)).data.items
+        return items.toList()
+                //.map{ taskData -> Task.fromAmplify(taskData) })
+        //tasksDao.getTasksList()
+    }
 
+    fun findByIdFlow(id: String): Flow<TaskData> = flow {
+        val taskData = Amplify.API.query(ModelQuery.get(TaskData::class.java, id)).data
+        emit(taskData)
+        //emit(Task.fromAmplify(taskData))
+        //tasksDao.findById(id).distinctUntilChanged()
+    }
+
+    suspend fun findById(id: String): TaskData {
+        return Amplify.API.query(ModelQuery.get(TaskData::class.java, id)).data
+        //return Task.fromAmplify(Amplify.API.query(ModelQuery.get(TaskData::class.java, id)).data)
         //tasksDao.findById(id).distinctUntilChanged()
     }
 
     suspend fun insert(taskData: TaskData) {
+        Log.i(TAG, "inserting $taskData")
         try {
             val response = Amplify.API.mutate(ModelMutation.create(taskData)).data
             Log.i(TAG, "insert successful: $taskData")
@@ -39,17 +56,18 @@ class TasksRepository(private val tasksDao: TasksDao) {
         }
         //tasksDao.insert(Task.fromAmplify(taskData))
     }
-
-    suspend fun insert(task: Task) {
-        insert(task.amplify())
-    }
-
-    suspend fun delete(task: Task) {
-        delete(task.amplify())
-    }
+//
+//    suspend fun insert(task: Task) {
+//        insert(task.amplify())
+//    }
+//
+//    suspend fun delete(task: Task) {
+//        delete(task.amplify())
+//    }
 
     suspend fun delete(taskData: TaskData) {
         //tasksDao.delete(Task.fromAmplify(taskData))
+        Log.i(TAG, "deleting $taskData")
         try {
             val response = Amplify.API.mutate(ModelMutation.delete(taskData)).data
             Log.i(TAG, "delete successful: $taskData")

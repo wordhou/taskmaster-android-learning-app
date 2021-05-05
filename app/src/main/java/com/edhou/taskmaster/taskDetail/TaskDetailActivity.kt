@@ -14,6 +14,7 @@ import com.edhou.taskmaster.TaskmasterApplication
 import com.edhou.taskmaster.models.Task
 import com.edhou.taskmaster.taskList.TasksListViewModel
 import com.edhou.taskmaster.taskList.TasksListViewModelFactory
+import com.edhou.taskmaster.utils.StatusDisplayer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -50,16 +51,15 @@ class TaskDetailActivity : AppCompatActivity() {
             it?.apply {
                 taskName.text = name
                 taskDescription.text = description
-                // taskStatus.text = Status.getString(status, resources)
+                taskStatus.text = StatusDisplayer.statusToString(status, resources)
             }
         }
 
         findViewById<Button>(R.id.deleteTaskButton)?.setOnClickListener {
             kotlin.run {
-                //lifecycleScope.launch(Dispatchers.IO) {
+                tasksListViewModel.delete(currentTaskId)
                 viewModel.delete()
                 finish()
-                //}
             }
         }
     }

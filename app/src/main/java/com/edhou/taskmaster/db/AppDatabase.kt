@@ -4,12 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import com.edhou.taskmaster.models.StatusConverters
 import com.edhou.taskmaster.models.Task
 
 @Database(entities = arrayOf(Task::class), version = 2, exportSchema = false)
-@TypeConverters(StatusConverters::class)
+@TypeConverters(TypeConverters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun tasksDao(): TasksDao
 

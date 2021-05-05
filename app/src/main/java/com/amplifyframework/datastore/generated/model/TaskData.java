@@ -1,5 +1,6 @@
 package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,10 +24,14 @@ public final class TaskData implements Model {
   public static final QueryField NAME = field("TaskData", "name");
   public static final QueryField DESCRIPTION = field("TaskData", "description");
   public static final QueryField STATUS = field("TaskData", "status");
+  public static final QueryField CREATED_AT = field("TaskData", "createdAt");
+  public static final QueryField UPDATED_AT = field("TaskData", "updatedAt");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String name;
   private final @ModelField(targetType="String") String description;
   private final @ModelField(targetType="Status") Status status;
+  private final @ModelField(targetType="AWSDateTime") Temporal.DateTime createdAt;
+  private final @ModelField(targetType="AWSDateTime") Temporal.DateTime updatedAt;
   public String getId() {
       return id;
   }
@@ -43,11 +48,21 @@ public final class TaskData implements Model {
       return status;
   }
   
-  private TaskData(String id, String name, String description, Status status) {
+  public Temporal.DateTime getCreatedAt() {
+      return createdAt;
+  }
+  
+  public Temporal.DateTime getUpdatedAt() {
+      return updatedAt;
+  }
+  
+  private TaskData(String id, String name, String description, Status status, Temporal.DateTime createdAt, Temporal.DateTime updatedAt) {
     this.id = id;
     this.name = name;
     this.description = description;
     this.status = status;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
   }
   
   @Override
@@ -61,7 +76,9 @@ public final class TaskData implements Model {
       return ObjectsCompat.equals(getId(), taskData.getId()) &&
               ObjectsCompat.equals(getName(), taskData.getName()) &&
               ObjectsCompat.equals(getDescription(), taskData.getDescription()) &&
-              ObjectsCompat.equals(getStatus(), taskData.getStatus());
+              ObjectsCompat.equals(getStatus(), taskData.getStatus()) &&
+              ObjectsCompat.equals(getCreatedAt(), taskData.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), taskData.getUpdatedAt());
       }
   }
   
@@ -72,6 +89,8 @@ public final class TaskData implements Model {
       .append(getName())
       .append(getDescription())
       .append(getStatus())
+      .append(getCreatedAt())
+      .append(getUpdatedAt())
       .toString()
       .hashCode();
   }
@@ -83,7 +102,9 @@ public final class TaskData implements Model {
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("name=" + String.valueOf(getName()) + ", ")
       .append("description=" + String.valueOf(getDescription()) + ", ")
-      .append("status=" + String.valueOf(getStatus()))
+      .append("status=" + String.valueOf(getStatus()) + ", ")
+      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
       .toString();
   }
@@ -115,6 +136,8 @@ public final class TaskData implements Model {
       id,
       null,
       null,
+      null,
+      null,
       null
     );
   }
@@ -123,7 +146,9 @@ public final class TaskData implements Model {
     return new CopyOfBuilder(id,
       name,
       description,
-      status);
+      status,
+      createdAt,
+      updatedAt);
   }
   public interface NameStep {
     BuildStep name(String name);
@@ -135,6 +160,8 @@ public final class TaskData implements Model {
     BuildStep id(String id) throws IllegalArgumentException;
     BuildStep description(String description);
     BuildStep status(Status status);
+    BuildStep createdAt(Temporal.DateTime createdAt);
+    BuildStep updatedAt(Temporal.DateTime updatedAt);
   }
   
 
@@ -143,6 +170,8 @@ public final class TaskData implements Model {
     private String name;
     private String description;
     private Status status;
+    private Temporal.DateTime createdAt;
+    private Temporal.DateTime updatedAt;
     @Override
      public TaskData build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -151,7 +180,9 @@ public final class TaskData implements Model {
           id,
           name,
           description,
-          status);
+          status,
+          createdAt,
+          updatedAt);
     }
     
     @Override
@@ -170,6 +201,18 @@ public final class TaskData implements Model {
     @Override
      public BuildStep status(Status status) {
         this.status = status;
+        return this;
+    }
+    
+    @Override
+     public BuildStep createdAt(Temporal.DateTime createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+    
+    @Override
+     public BuildStep updatedAt(Temporal.DateTime updatedAt) {
+        this.updatedAt = updatedAt;
         return this;
     }
     
@@ -196,11 +239,13 @@ public final class TaskData implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String name, String description, Status status) {
+    private CopyOfBuilder(String id, String name, String description, Status status, Temporal.DateTime createdAt, Temporal.DateTime updatedAt) {
       super.id(id);
       super.name(name)
         .description(description)
-        .status(status);
+        .status(status)
+        .createdAt(createdAt)
+        .updatedAt(updatedAt);
     }
     
     @Override
@@ -216,6 +261,16 @@ public final class TaskData implements Model {
     @Override
      public CopyOfBuilder status(Status status) {
       return (CopyOfBuilder) super.status(status);
+    }
+    
+    @Override
+     public CopyOfBuilder createdAt(Temporal.DateTime createdAt) {
+      return (CopyOfBuilder) super.createdAt(createdAt);
+    }
+    
+    @Override
+     public CopyOfBuilder updatedAt(Temporal.DateTime updatedAt) {
+      return (CopyOfBuilder) super.updatedAt(updatedAt);
     }
   }
   

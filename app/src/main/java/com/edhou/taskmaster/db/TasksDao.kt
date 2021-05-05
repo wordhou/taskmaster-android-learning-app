@@ -7,10 +7,16 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TasksDao {
     @Query("SELECT * FROM Task")
-    fun getTasksList(): Flow<List<Task>>
+    fun getTasksListFlow(): Flow<List<Task>>
+
+    @Query("SELECT * FROM Task")
+    fun getTasksList(): List<Task>
 
     @Query("SELECT * FROM Task where id == :id")
-    fun findById(id: String): Flow<Task>
+    fun findByIdFlow(id: String): Flow<Task>
+
+    @Query("SELECT * FROM Task where id == :id")
+    fun findById(id: String): Task
 
     @Insert
     fun insert(task: Task)

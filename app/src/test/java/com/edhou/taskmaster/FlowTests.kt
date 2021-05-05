@@ -1,15 +1,29 @@
 package com.edhou.taskmaster
 
-import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 class FlowTests {
+    @Test
+    fun coRoutinesBasic() {
+        runBlocking {
+            val x : Job = launch {
+                delay(2000L)
+                println("Job!")
+            }
+            x.join()
+            launch {
+                delay(1000L)
+                println("Hello?")
+            }
+            println("World!")
+        }
+    }
+
     @InternalCoroutinesApi
     @Test
     fun flowStuff() {

@@ -24,6 +24,7 @@ class TaskDetailActivity : AppCompatActivity() {
     private lateinit var application: TaskmasterApplication
 
     private val viewModel: TaskDetailViewModel by viewModels { TaskDetailViewModelFactory(this) }
+    private val tasksListViewModel: TasksListViewModel by viewModels { TasksListViewModelFactory(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +50,7 @@ class TaskDetailActivity : AppCompatActivity() {
             it?.apply {
                 taskName.text = name
                 taskDescription.text = description
-                taskStatus.text = Status.getString(status, resources)
+                // taskStatus.text = Status.getString(status, resources)
             }
         }
 

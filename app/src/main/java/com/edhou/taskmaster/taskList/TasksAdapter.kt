@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.amplifyframework.datastore.generated.model.Status
 import com.edhou.taskmaster.R
 import com.edhou.taskmaster.models.Task
 
@@ -31,7 +32,7 @@ class TasksAdapter(private val onClick: (Task) -> Unit,
             currentTask = task
             taskNameTextView.text = task.name
             taskDescriptionTextView.text = task.description
-            taskStatusTextView.text = task.status.getString(resources)
+            taskStatusTextView.text = Status.getString(task.status, resources)
         }
     }
 

@@ -2,6 +2,8 @@ package com.edhou.taskmaster;
 
 import org.junit.Test;
 
+import kotlinx.coroutines.flow.Flow;
+
 import static org.junit.Assert.*;
 
 /**
@@ -13,5 +15,9 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
+    }
+
+    @Test
+    public void flowStuff() {
     }
 }

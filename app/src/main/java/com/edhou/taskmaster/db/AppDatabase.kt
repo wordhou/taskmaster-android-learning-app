@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import com.edhou.taskmaster.models.StatusConverters
 import com.edhou.taskmaster.models.Task
 
-@Database(entities = arrayOf(Task::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(Task::class), version = 2, exportSchema = false)
 @TypeConverters(StatusConverters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun tasksDao(): TasksDao
@@ -24,7 +24,9 @@ abstract class AppDatabase : RoomDatabase() {
                         context.applicationContext,
                         AppDatabase::class.java,
                         "com.edhou.taskmaster"
-                ).build()
+                )
+                        .fallbackToDestructiveMigration()
+                        .build()
                 INSTANCE = instance
                 // return instance
                 instance

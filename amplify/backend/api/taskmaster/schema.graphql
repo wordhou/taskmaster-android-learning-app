@@ -1,0 +1,13 @@
+type TaskData @model {
+  id: ID!
+  name: String!
+  description: String
+  status: Status
+}
+
+enum Status {
+    NEW,
+    IN_PROGRESS,
+    ASSIGNED,
+    COMPLETE
+}

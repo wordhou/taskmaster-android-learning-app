@@ -5,14 +5,20 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.edhou.taskmaster.R
 import com.edhou.taskmaster.TaskmasterApplication
 import com.edhou.taskmaster.models.Task
+import com.edhou.taskmaster.taskDetail.TASK_ID
+import com.edhou.taskmaster.taskDetail.TaskDetailActivity
 import com.edhou.taskmaster.taskList.TasksAdapter
+import com.edhou.taskmaster.taskList.TasksListViewModel
+import com.edhou.taskmaster.taskList.TasksListViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -21,13 +27,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var prefs: SharedPreferences
     private lateinit var tasksAdapter: TasksAdapter
 
-    lateinit private var application: TaskmasterApplication
+    private val viewModel: TasksListViewModel by viewModels{ TasksListViewModelFactory(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        application = getApplication() as TaskmasterApplication
 
         findViewById<Button>(R.id.addTaskLinkButton)?.setOnClickListener {
             startActivity(Intent(this@MainActivity, AddTaskActivity::class.java)) }
@@ -40,15 +44,15 @@ class MainActivity : AppCompatActivity() {
 
         prefs = getSharedPreferences(getString(R.string.user_details_shared_preferences), MODE_PRIVATE)
 
-        tasksAdapter = TasksAdapter ({ task -> adapterOnClick(task) }, resources )
+        tasksAdapter = TasksAdapter ({ adapterOnClick(it) }, resources )
 
         val recyclerView: RecyclerView = findViewById(R.id.tasksRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(applicationContext)
-        recyclerView.adapter = tasksAdapter;
+        recyclerView.adapter = tasksAdapter
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            tasksAdapter.submitList(application.repository.getTasksList())
-        }
+        viewModel.tasksList.observe(this,  {
+            tasksAdapter.submitList(it)
+        })
     }
 
     private fun adapterOnClick(task: Task) {
@@ -59,9 +63,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        lifecycleScope.launch (Dispatchers.IO) {
-            tasksAdapter.submitList(application.repository.getTasksList())
-        }
         prefs.getString("name", null)?.let {
             findViewById<TextView>(R.id.myTasksHeading)?.setText("$it's Tasks", TextView.BufferType.NORMAL)
         }

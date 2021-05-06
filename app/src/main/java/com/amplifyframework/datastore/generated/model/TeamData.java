@@ -1,6 +1,6 @@
 package com.amplifyframework.datastore.generated.model;
 
-import com.amplifyframework.core.model.annotations.BelongsTo;
+import com.amplifyframework.core.model.annotations.HasMany;
 import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
@@ -17,23 +17,17 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
-/** This is an auto generated class representing the TaskData type in your schema. */
+/** This is an auto generated class representing the TeamData type in your schema. */
 @SuppressWarnings("all")
-@ModelConfig(pluralName = "TaskData")
-@Index(name = "byTeam", fields = {"teamID"})
-public final class TaskData implements Model {
-  public static final QueryField ID = field("TaskData", "id");
-  public static final QueryField NAME = field("TaskData", "name");
-  public static final QueryField DESCRIPTION = field("TaskData", "description");
-  public static final QueryField STATUS = field("TaskData", "status");
-  public static final QueryField TEAM = field("TaskData", "teamID");
-  public static final QueryField CREATED_AT = field("TaskData", "createdAt");
-  public static final QueryField UPDATED_AT = field("TaskData", "updatedAt");
+@ModelConfig(pluralName = "TeamData")
+public final class TeamData implements Model {
+  public static final QueryField ID = field("TeamData", "id");
+  public static final QueryField NAME = field("TeamData", "name");
+  public static final QueryField CREATED_AT = field("TeamData", "createdAt");
+  public static final QueryField UPDATED_AT = field("TeamData", "updatedAt");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String name;
-  private final @ModelField(targetType="String") String description;
-  private final @ModelField(targetType="Status") Status status;
-  private final @ModelField(targetType="TeamData") @BelongsTo(targetName = "teamID", type = TeamData.class) TeamData team;
+  private final @ModelField(targetType="TaskData") @HasMany(associatedWith = "team", type = TaskData.class) List<TaskData> tasks = null;
   private final @ModelField(targetType="AWSDateTime") Temporal.DateTime createdAt;
   private final @ModelField(targetType="AWSDateTime") Temporal.DateTime updatedAt;
   public String getId() {
@@ -44,16 +38,8 @@ public final class TaskData implements Model {
       return name;
   }
   
-  public String getDescription() {
-      return description;
-  }
-  
-  public Status getStatus() {
-      return status;
-  }
-  
-  public TeamData getTeam() {
-      return team;
+  public List<TaskData> getTasks() {
+      return tasks;
   }
   
   public Temporal.DateTime getCreatedAt() {
@@ -64,12 +50,9 @@ public final class TaskData implements Model {
       return updatedAt;
   }
   
-  private TaskData(String id, String name, String description, Status status, TeamData team, Temporal.DateTime createdAt, Temporal.DateTime updatedAt) {
+  private TeamData(String id, String name, Temporal.DateTime createdAt, Temporal.DateTime updatedAt) {
     this.id = id;
     this.name = name;
-    this.description = description;
-    this.status = status;
-    this.team = team;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
@@ -81,14 +64,11 @@ public final class TaskData implements Model {
       } else if(obj == null || getClass() != obj.getClass()) {
         return false;
       } else {
-      TaskData taskData = (TaskData) obj;
-      return ObjectsCompat.equals(getId(), taskData.getId()) &&
-              ObjectsCompat.equals(getName(), taskData.getName()) &&
-              ObjectsCompat.equals(getDescription(), taskData.getDescription()) &&
-              ObjectsCompat.equals(getStatus(), taskData.getStatus()) &&
-              ObjectsCompat.equals(getTeam(), taskData.getTeam()) &&
-              ObjectsCompat.equals(getCreatedAt(), taskData.getCreatedAt()) &&
-              ObjectsCompat.equals(getUpdatedAt(), taskData.getUpdatedAt());
+      TeamData teamData = (TeamData) obj;
+      return ObjectsCompat.equals(getId(), teamData.getId()) &&
+              ObjectsCompat.equals(getName(), teamData.getName()) &&
+              ObjectsCompat.equals(getCreatedAt(), teamData.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), teamData.getUpdatedAt());
       }
   }
   
@@ -97,9 +77,6 @@ public final class TaskData implements Model {
     return new StringBuilder()
       .append(getId())
       .append(getName())
-      .append(getDescription())
-      .append(getStatus())
-      .append(getTeam())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .toString()
@@ -108,17 +85,15 @@ public final class TaskData implements Model {
   
   @Override
    public String toString() {
-    return new StringBuilder()
-      .append("TaskData {")
-      .append("id=" + String.valueOf(getId()) + ", ")
-      .append("name=" + String.valueOf(getName()) + ", ")
-      .append("description=" + String.valueOf(getDescription()) + ", ")
-      .append("status=" + String.valueOf(getStatus()) + ", ")
-      .append("team=" + String.valueOf(getTeam()) + ", ")
-      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
-      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
-      .append("}")
-      .toString();
+            return name;
+//      return new StringBuilder()
+//      .append("TeamData {")
+//      .append("id=" + String.valueOf(getId()) + ", ")
+//      .append("name=" + String.valueOf(getName()) + ", ")
+//      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
+//      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+//      .append("}")
+//      .toString();
   }
   
   public static NameStep builder() {
@@ -134,7 +109,7 @@ public final class TaskData implements Model {
    * @return an instance of this model with only ID populated
    * @throws IllegalArgumentException Checks that ID is in the proper format
    */
-  public static TaskData justId(String id) {
+  public static TeamData justId(String id) {
     try {
       UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
     } catch (Exception exception) {
@@ -144,11 +119,8 @@ public final class TaskData implements Model {
               "creating a new object, use the standard builder method and leave the ID field blank."
       );
     }
-    return new TaskData(
+    return new TeamData(
       id,
-      null,
-      null,
-      null,
       null,
       null,
       null
@@ -158,9 +130,6 @@ public final class TaskData implements Model {
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name,
-      description,
-      status,
-      team,
       createdAt,
       updatedAt);
   }
@@ -170,11 +139,8 @@ public final class TaskData implements Model {
   
 
   public interface BuildStep {
-    TaskData build();
+    TeamData build();
     BuildStep id(String id) throws IllegalArgumentException;
-    BuildStep description(String description);
-    BuildStep status(Status status);
-    BuildStep team(TeamData team);
     BuildStep createdAt(Temporal.DateTime createdAt);
     BuildStep updatedAt(Temporal.DateTime updatedAt);
   }
@@ -183,21 +149,15 @@ public final class TaskData implements Model {
   public static class Builder implements NameStep, BuildStep {
     private String id;
     private String name;
-    private String description;
-    private Status status;
-    private TeamData team;
     private Temporal.DateTime createdAt;
     private Temporal.DateTime updatedAt;
     @Override
-     public TaskData build() {
+     public TeamData build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
         
-        return new TaskData(
+        return new TeamData(
           id,
           name,
-          description,
-          status,
-          team,
           createdAt,
           updatedAt);
     }
@@ -206,24 +166,6 @@ public final class TaskData implements Model {
      public BuildStep name(String name) {
         Objects.requireNonNull(name);
         this.name = name;
-        return this;
-    }
-    
-    @Override
-     public BuildStep description(String description) {
-        this.description = description;
-        return this;
-    }
-    
-    @Override
-     public BuildStep status(Status status) {
-        this.status = status;
-        return this;
-    }
-    
-    @Override
-     public BuildStep team(TeamData team) {
-        this.team = team;
         return this;
     }
     
@@ -262,12 +204,9 @@ public final class TaskData implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String name, String description, Status status, TeamData team, Temporal.DateTime createdAt, Temporal.DateTime updatedAt) {
+    private CopyOfBuilder(String id, String name, Temporal.DateTime createdAt, Temporal.DateTime updatedAt) {
       super.id(id);
       super.name(name)
-        .description(description)
-        .status(status)
-        .team(team)
         .createdAt(createdAt)
         .updatedAt(updatedAt);
     }
@@ -275,21 +214,6 @@ public final class TaskData implements Model {
     @Override
      public CopyOfBuilder name(String name) {
       return (CopyOfBuilder) super.name(name);
-    }
-    
-    @Override
-     public CopyOfBuilder description(String description) {
-      return (CopyOfBuilder) super.description(description);
-    }
-    
-    @Override
-     public CopyOfBuilder status(Status status) {
-      return (CopyOfBuilder) super.status(status);
-    }
-    
-    @Override
-     public CopyOfBuilder team(TeamData team) {
-      return (CopyOfBuilder) super.team(team);
     }
     
     @Override

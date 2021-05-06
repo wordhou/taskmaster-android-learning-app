@@ -2,6 +2,7 @@ package com.edhou.taskmaster.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.amplifyframework.core.model.temporal.Temporal
 import com.amplifyframework.datastore.generated.model.Status
 import com.amplifyframework.datastore.generated.model.TaskData
 
@@ -11,7 +12,9 @@ data class Task(
         var id: String,
         val name: String,
         val description: String,
-        val status: Status) {
+        val status: Status,
+        val createdAt: Temporal.DateTime?,
+        val updatedAt: Temporal.DateTime?) {
 
     fun amplify(): TaskData {
         return TaskData.builder()
@@ -27,7 +30,9 @@ data class Task(
             return Task(id = taskData.id,
                     name = taskData.name,
                     description = taskData.description,
-                    status = taskData.status)
+                    status = taskData.status,
+                    createdAt = taskData.createdAt,
+                    updatedAt = taskData.updatedAt)
         }
     }
 }

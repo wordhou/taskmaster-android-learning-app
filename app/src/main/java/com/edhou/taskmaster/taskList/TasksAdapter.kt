@@ -9,18 +9,19 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.amplifyframework.datastore.generated.model.Status
+import com.amplifyframework.datastore.generated.model.TaskData
 import com.edhou.taskmaster.R
-import com.edhou.taskmaster.models.Task
+import com.edhou.taskmaster.utils.StatusDisplayer
 
-class TasksAdapter(private val onClick: (Task) -> Unit,
-                   private val resources: Resources) : ListAdapter<Task, TasksAdapter.TaskViewHolder>(TaskDiffCallback) {
+class TasksAdapter(private val onClick: (TaskData) -> Unit,
+                   private val resources: Resources) : ListAdapter<TaskData, TasksAdapter.TaskViewHolder>(TaskDiffCallback) {
 
-    class TaskViewHolder(itemView: View, val onClick: (Task) -> Unit, private val resources: Resources)
+    class TaskViewHolder(itemView: View, val onClick: (TaskData) -> Unit, private val resources: Resources)
         : RecyclerView.ViewHolder(itemView) {
         private val taskNameTextView: TextView = itemView.findViewById(R.id.taskName)
         private val taskDescriptionTextView: TextView = itemView.findViewById(R.id.taskDescription)
         private val taskStatusTextView: TextView = itemView.findViewById(R.id.taskStatus)
-        private var currentTask: Task? = null
+        private var currentTask: TaskData? = null
 
         init {
             itemView.setOnClickListener {
@@ -28,11 +29,11 @@ class TasksAdapter(private val onClick: (Task) -> Unit,
             }
         }
 
-        fun bind(task: Task) {
+        fun bind(task: TaskData) {
             currentTask = task
             taskNameTextView.text = task.name
             taskDescriptionTextView.text = task.description
-            taskStatusTextView.text = Status.getString(task.status, resources)
+            taskStatusTextView.text = StatusDisplayer.statusToString(task.status, resources)
         }
     }
 
@@ -48,12 +49,12 @@ class TasksAdapter(private val onClick: (Task) -> Unit,
     }
 }
 
-object TaskDiffCallback : DiffUtil.ItemCallback<Task>() {
-    override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean {
+object TaskDiffCallback : DiffUtil.ItemCallback<TaskData>() {
+    override fun areItemsTheSame(oldItem: TaskData, newItem: TaskData): Boolean {
         return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean {
+    override fun areContentsTheSame(oldItem: TaskData, newItem: TaskData): Boolean {
         return oldItem.id == newItem.id
     }
 }

@@ -1,5 +1,6 @@
 package com.edhou.taskmaster.taskDetail
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -11,9 +12,12 @@ import androidx.lifecycle.viewModelScope
 import com.amplifyframework.datastore.generated.model.Status
 import com.edhou.taskmaster.R
 import com.edhou.taskmaster.TaskmasterApplication
+import com.edhou.taskmaster.activities.AddTaskActivity
+import com.edhou.taskmaster.activities.AddTeam
 import com.edhou.taskmaster.models.Task
 import com.edhou.taskmaster.taskList.TasksListViewModel
 import com.edhou.taskmaster.taskList.TasksListViewModelFactory
+import com.edhou.taskmaster.utils.StatusDisplayer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -24,6 +28,7 @@ class TaskDetailActivity : AppCompatActivity() {
     private lateinit var application: TaskmasterApplication
 
     private val viewModel: TaskDetailViewModel by viewModels { TaskDetailViewModelFactory(this) }
+    private val tasksListViewModel: TasksListViewModel by viewModels { TasksListViewModelFactory(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,17 +54,20 @@ class TaskDetailActivity : AppCompatActivity() {
             it?.apply {
                 taskName.text = name
                 taskDescription.text = description
-                taskStatus.text = Status.getString(status, resources)
+                taskStatus.text = StatusDisplayer.statusToString(status, resources)
             }
         }
 
         findViewById<Button>(R.id.deleteTaskButton)?.setOnClickListener {
             kotlin.run {
-                //lifecycleScope.launch(Dispatchers.IO) {
+                tasksListViewModel.delete(currentTaskId)
                 viewModel.delete()
                 finish()
-                //}
             }
+        }
+
+        findViewById<Button>(R.id.linkAddTeamButton)?.setOnClickListener {
+            startActivity(Intent(this@TaskDetailActivity, AddTeam::class.java))
         }
     }
 }

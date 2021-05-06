@@ -7,11 +7,13 @@ import com.amplifyframework.api.aws.AWSApiPlugin
 import com.amplifyframework.core.Amplify
 import com.edhou.taskmaster.db.AppDatabase
 import com.edhou.taskmaster.db.TasksRepository
+import com.edhou.taskmaster.db.TeamsRepository
 
 
 class TaskmasterApplication : Application() {
     val database by lazy { AppDatabase.getInstance(this) }
     val tasksRepository by lazy { TasksRepository(database.tasksDao()) }
+    val teamsRepository by lazy { TeamsRepository() }
 
     override fun onCreate() {
         Log.i("App", "Creating application context")

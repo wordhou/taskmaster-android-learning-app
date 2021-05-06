@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin' // Gradle plugin for Hilt
 }
 
 android {
@@ -77,5 +78,10 @@ dependencies {
     implementation 'com.amplifyframework:aws-auth-cognito:1.4.0' // This will eventually be used for user auth?
     implementation 'com.amplifyframework:core-kotlin:0.1.5' // This is the Kotlin FACADE
     implementation 'com.amplifyframework:core:1.17.5'
+
+    // Dependency injection via Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    annotationProcessor "com.google.dagger:hilt-compiler:$hilt_version"
+
 
 }

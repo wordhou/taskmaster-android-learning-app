@@ -7,20 +7,16 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.amplifyframework.datastore.generated.model.TaskData
 import com.edhou.taskmaster.R
-import com.edhou.taskmaster.TaskmasterApplication
-import com.edhou.taskmaster.models.Task
 import com.edhou.taskmaster.taskDetail.TASK_ID
 import com.edhou.taskmaster.taskDetail.TaskDetailActivity
 import com.edhou.taskmaster.taskList.TasksAdapter
 import com.edhou.taskmaster.taskList.TasksListViewModel
 import com.edhou.taskmaster.taskList.TasksListViewModelFactory
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MAINDEBUG"
@@ -55,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun adapterOnClick(task: Task) {
+    private fun adapterOnClick(task: TaskData) {
         val intent = Intent(this, TaskDetailActivity()::class.java)
         intent.putExtra(TASK_ID, task.id)
         startActivity(intent)
@@ -66,5 +62,7 @@ class MainActivity : AppCompatActivity() {
         prefs.getString("name", null)?.let {
             findViewById<TextView>(R.id.myTasksHeading)?.setText("$it's Tasks", TextView.BufferType.NORMAL)
         }
+
+        viewModel.update()
     }
 }

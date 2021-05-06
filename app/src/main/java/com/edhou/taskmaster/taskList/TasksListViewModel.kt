@@ -38,6 +38,12 @@ class TasksListViewModel(val tasksRepository: TasksRepository) : ViewModel() {
         }
     }
 
+    fun update() {
+        viewModelScope.launch {
+            updateTasksList()
+        }
+    }
+
 }
 
 class TasksListViewModelFactory(private val context: Context) : ViewModelProvider.Factory {

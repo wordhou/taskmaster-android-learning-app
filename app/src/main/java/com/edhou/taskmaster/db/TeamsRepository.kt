@@ -6,10 +6,15 @@ import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.datastore.generated.model.TeamData
 import com.amplifyframework.kotlin.core.Amplify
+import com.edhou.taskmaster.activities.AddTaskActivity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class TeamsRepository {
+class TeamsRepository() {
+    companion object {
+        private val TAG: String = "TeamsRepo"
+    }
+
     fun getTeamsListFlow(): Flow<List<TeamData>> = flow {
         val items = Amplify.API.query(ModelQuery.list(TeamData::class.java)).data.items
         emit(items.toList())
@@ -18,6 +23,7 @@ class TeamsRepository {
     suspend fun getTeamsList(): List<TeamData> {
         val items = Amplify.API
                 .query(ModelQuery.list(TeamData::class.java)).data.items
+        Log.i(TAG, "gotTeams $items")
         return items.toList()
     }
 
@@ -35,12 +41,13 @@ class TeamsRepository {
     }
 
     suspend fun insert(teamData: TeamData) {
-        Log.i(TasksRepository.TAG, "inserting $teamData")
+        Log.i(TAG, "inserting $teamData")
+        Log.i(TAG, "thread: ${Thread.currentThread().name}")
         try {
             val response = Amplify.API.mutate(ModelMutation.create(teamData)).data
-            Log.i(TasksRepository.TAG, "insert successful: $teamData")
+            Log.i(TAG, "insert successful: $teamData")
         } catch(error: ApiException) {
-            Log.e(TasksRepository.TAG, "insert: " + teamData.toString(), error)
+            Log.e(TAG, "insert: " + teamData.toString(), error)
         }
         //tasksDao.insert(Task.fromAmplify(taskData))
     }
@@ -55,12 +62,12 @@ class TeamsRepository {
 
     suspend fun delete(teamData: TeamData) {
         //tasksDao.delete(Task.fromAmplify(taskData))
-        Log.i(TasksRepository.TAG, "deleting $teamData")
+        Log.i(TAG, "deleting $teamData")
         try {
             val response = Amplify.API.mutate(ModelMutation.delete(teamData)).data
-            Log.i(TasksRepository.TAG, "delete successful: $teamData")
+            Log.i(TAG, "delete successful: $teamData")
         } catch(error: ApiException) {
-            Log.e(TasksRepository.TAG, "delete: " + teamData.toString(), error)
+            Log.e(TAG, "delete: " + teamData.toString(), error)
         }
     }
 }

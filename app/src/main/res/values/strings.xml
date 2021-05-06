@@ -26,5 +26,7 @@
     <string name="status_assigned">Assigned</string>
     <string name="status_in_progress">In progress</string>
     <string name="status_complete">Complete</string>
+    <string name="add_team">Add Team</string>
+    <string name="team_name_hint">Team Name</string>
 
 </resources>

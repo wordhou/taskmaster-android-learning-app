@@ -1,5 +1,6 @@
 package com.edhou.taskmaster.taskDetail
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -11,6 +12,8 @@ import androidx.lifecycle.viewModelScope
 import com.amplifyframework.datastore.generated.model.Status
 import com.edhou.taskmaster.R
 import com.edhou.taskmaster.TaskmasterApplication
+import com.edhou.taskmaster.activities.AddTaskActivity
+import com.edhou.taskmaster.activities.AddTeam
 import com.edhou.taskmaster.models.Task
 import com.edhou.taskmaster.taskList.TasksListViewModel
 import com.edhou.taskmaster.taskList.TasksListViewModelFactory
@@ -61,6 +64,10 @@ class TaskDetailActivity : AppCompatActivity() {
                 viewModel.delete()
                 finish()
             }
+        }
+
+        findViewById<Button>(R.id.linkAddTeamButton)?.setOnClickListener {
+            startActivity(Intent(this@TaskDetailActivity, AddTeam::class.java))
         }
     }
 }

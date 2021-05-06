@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amplifyframework.datastore.generated.model.Status
 import com.amplifyframework.datastore.generated.model.TaskData
 import com.edhou.taskmaster.R
+import com.edhou.taskmaster.utils.StatusDisplayer
 
 class TasksAdapter(private val onClick: (TaskData) -> Unit,
                    private val resources: Resources) : ListAdapter<TaskData, TasksAdapter.TaskViewHolder>(TaskDiffCallback) {
@@ -32,7 +33,7 @@ class TasksAdapter(private val onClick: (TaskData) -> Unit,
             currentTask = task
             taskNameTextView.text = task.name
             taskDescriptionTextView.text = task.description
-            //taskStatusTextView.text = Status.getString(task.status, resources)
+            taskStatusTextView.text = StatusDisplayer.statusToString(task.status, resources)
         }
     }
 

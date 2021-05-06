@@ -9,8 +9,11 @@ import com.amplifyframework.kotlin.core.Amplify
 import com.edhou.taskmaster.activities.AddTaskActivity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class TeamsRepository() {
+@Singleton
+class TeamsRepository @Inject constructor() {
     companion object {
         private val TAG: String = "TeamsRepo"
     }

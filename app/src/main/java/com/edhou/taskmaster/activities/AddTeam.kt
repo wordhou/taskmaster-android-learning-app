@@ -12,15 +12,17 @@ import com.amplifyframework.datastore.generated.model.TeamData
 import com.edhou.taskmaster.R
 import com.edhou.taskmaster.TaskmasterApplication
 import com.edhou.taskmaster.team.TeamsListViewModel
-import com.edhou.taskmaster.team.TeamsListViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class AddTeam : AppCompatActivity() {
     private lateinit var submitAddTeam: Button
     private lateinit var application: TaskmasterApplication
     private lateinit var editTeamName: TextView
-    private val teamsListViewModel: TeamsListViewModel by viewModels { TeamsListViewModelFactory(this) }
+    //private val teamsListViewModel: TeamsListViewModel by viewModels { TeamsListViewModelFactory(this) }
+    private val teamsListViewModel: TeamsListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -13,16 +13,16 @@ import androidx.lifecycle.observe
 import com.amplifyframework.datastore.generated.model.TeamData
 import com.edhou.taskmaster.R
 import com.edhou.taskmaster.taskList.TasksListViewModel
-import com.edhou.taskmaster.taskList.TasksListViewModelFactory
 import com.edhou.taskmaster.team.TeamsListViewModel
-import com.edhou.taskmaster.team.TeamsListViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingsActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     private lateinit var prefs: SharedPreferences
     private lateinit var editPrefs: SharedPreferences.Editor
     private lateinit var multiSelectTeamListView: ListView
     private lateinit var adapter: ArrayAdapter<TeamData>
-    private val teamsListViewModel: TeamsListViewModel by viewModels { TeamsListViewModelFactory(this) }
+    private val teamsListViewModel: TeamsListViewModel by viewModels()
 
     @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,7 +90,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
    
     private fun updateSelected() {
         val ids = prefs.getStringSet(USER_TEAMS, mutableSetOf<String>())
-        Log.i(TAG, "updateSelected: $ids")
+        //Log.i(TAG, "updateSelected: $ids")
         if (ids == null) return;
         for(i in 0 until adapter.count)
             if (ids.contains(adapter.getItem(i)?.id)) {

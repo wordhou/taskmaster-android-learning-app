@@ -11,9 +11,12 @@ import com.edhou.taskmaster.models.Task
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
+import javax.inject.Singleton
 import javax.security.auth.login.LoginException
 
-class TasksRepository(private val tasksDao: TasksDao) {
+@Singleton
+class TasksRepository @Inject constructor(private val tasksDao: TasksDao) {
     companion object {
         const val TAG = "TasksRepo"
     }

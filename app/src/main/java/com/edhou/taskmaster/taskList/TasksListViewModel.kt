@@ -5,11 +5,15 @@ import androidx.lifecycle.*
 import com.amplifyframework.datastore.generated.model.TaskData
 import com.edhou.taskmaster.TaskmasterApplication
 import com.edhou.taskmaster.db.TasksRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
+import javax.inject.Inject
 
-class TasksListViewModel(val tasksRepository: TasksRepository) : ViewModel() {
+@HiltViewModel
+class TasksListViewModel @Inject constructor(
+        val tasksRepository: TasksRepository) : ViewModel() {
     private val _tasksList: MutableLiveData<List<TaskData>> = MutableLiveData()
     val tasksList: LiveData<List<TaskData>>
         get() = _tasksList
@@ -42,19 +46,6 @@ class TasksListViewModel(val tasksRepository: TasksRepository) : ViewModel() {
         viewModelScope.launch {
             updateTasksList()
         }
-    }
-
-}
-
-class TasksListViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(TasksListViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return TasksListViewModel(
-                    (context.applicationContext as TaskmasterApplication).tasksRepository
-            ) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 
 }

@@ -14,7 +14,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun tasksDao(): TasksDao
 
     companion object {
-        private var INSTANCE: AppDatabase? = null
+        @Volatile private var INSTANCE: AppDatabase? = null
 
         fun getInstance(context: Context): AppDatabase {
             // if the INSTANCE is not null, then return it,

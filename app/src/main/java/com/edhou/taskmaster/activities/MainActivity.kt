@@ -17,14 +17,15 @@ import com.edhou.taskmaster.taskDetail.TASK_ID
 import com.edhou.taskmaster.taskDetail.TaskDetailActivity
 import com.edhou.taskmaster.taskList.TasksAdapter
 import com.edhou.taskmaster.taskList.TasksListViewModel
-import com.edhou.taskmaster.taskList.TasksListViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val TAG = "MAINDEBUG"
     private lateinit var prefs: SharedPreferences
     private lateinit var tasksAdapter: TasksAdapter
 
-    private val viewModel: TasksListViewModel by viewModels{ TasksListViewModelFactory(this) }
+    private val viewModel: TasksListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

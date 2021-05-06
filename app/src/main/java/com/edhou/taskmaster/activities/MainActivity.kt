@@ -3,6 +3,7 @@ package com.edhou.taskmaster.activities
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.provider.Settings
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        prefs.getString("name", null)?.let {
+        prefs.getString(SettingsActivity.USER_NAME, null)?.let {
             findViewById<TextView>(R.id.myTasksHeading)?.setText("$it's Tasks", TextView.BufferType.NORMAL)
         }
 

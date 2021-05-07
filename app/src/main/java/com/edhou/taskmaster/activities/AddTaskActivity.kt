@@ -20,8 +20,6 @@ import com.edhou.taskmaster.team.TeamsListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.security.auth.login.LoginException
-import kotlin.math.log
 
 @AndroidEntryPoint
 class AddTaskActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {

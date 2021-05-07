@@ -8,7 +8,9 @@ import com.amplifyframework.datastore.generated.model.TaskData
 import com.amplifyframework.datastore.generated.model.TeamData
 import com.amplifyframework.kotlin.core.Amplify
 import com.edhou.taskmaster.models.Task
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.coroutineContext
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -25,23 +27,28 @@ class TasksRepository @Inject constructor(private val tasksDao: TasksDao) {
         val items = Amplify.API
                 .query(ModelQuery.list(TaskData::class.java)).data.items
         emit(items.toList())
-        //emit(items.map{ taskData -> Task.fromAmplify(taskData) })
-        //tasksDao.getTasksList()
+    }
+
+    fun getTasksListByTeamsFlow(teams: Set<TeamData>): Flow<List<TaskData>> = flow {
+        val result = mutableListOf<TaskData>();
+        // TODO: Figure out how to do this with only one GraphQL query. Or at least make these requests concurrently
+        teams.forEach {
+            val items = Amplify.API
+                    .query(ModelQuery.list(TaskData::class.java, TaskData.TEAM.eq(it.id))).data.items
+            result.addAll(items)
+        }
+        emit(result)
     }
 
     suspend fun getTasksList(): List<TaskData> {
         val items = Amplify.API
                 .query(ModelQuery.list(TaskData::class.java)).data.items
         return items.toList()
-                //.map{ taskData -> Task.fromAmplify(taskData) })
-        //tasksDao.getTasksList()
     }
 
     fun findByIdFlow(id: String): Flow<TaskData> = flow {
         val taskData = Amplify.API.query(ModelQuery.get(TaskData::class.java, id)).data
         emit(taskData)
-        //emit(Task.fromAmplify(taskData))
-        //tasksDao.findById(id).distinctUntilChanged()
     }
 
     suspend fun findById(id: String): TaskData {

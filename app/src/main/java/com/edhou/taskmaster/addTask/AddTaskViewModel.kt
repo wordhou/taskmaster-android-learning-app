@@ -33,17 +33,3 @@ class AddTaskViewModel @Inject constructor(
         TODO()
     }
 }
-//
-//class AddTaskViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
-//    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-//        if (modelClass.isAssignableFrom(AddTaskViewModel::class.java)) {
-//            @Suppress("UNCHECKED_CAST")
-//            return AddTaskViewModel(
-//                    (context.applicationContext as TaskmasterApplication).tasksRepository,
-//                    (context.applicationContext as TaskmasterApplication).teamsRepository
-//            ) as T
-//        }
-//        throw IllegalArgumentException("Unknown ViewModel class")
-//    }
-//
-//}

@@ -1,22 +1,22 @@
 package com.edhou.taskmaster.taskList
 
-import android.content.Context
 import androidx.lifecycle.*
 import com.amplifyframework.datastore.generated.model.TaskData
-import com.edhou.taskmaster.TaskmasterApplication
+import com.amplifyframework.datastore.generated.model.TeamData
 import com.edhou.taskmaster.db.TasksRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 @HiltViewModel
 class TasksListViewModel @Inject constructor(
-        val tasksRepository: TasksRepository) : ViewModel() {
+        private val tasksRepository: TasksRepository
+) : ViewModel() {
     private val _tasksList: MutableLiveData<List<TaskData>> = MutableLiveData()
     val tasksList: LiveData<List<TaskData>>
         get() = _tasksList
+    private var userTeams: Set<TeamData>? = null
 
     init {
         viewModelScope.launch {
@@ -36,9 +36,15 @@ class TasksListViewModel @Inject constructor(
         }
     }
 
-    suspend fun updateTasksList() {
+    private suspend fun updateTasksList() {
+        if (userTeams != null) {
+            tasksRepository.getTasksListByTeamsFlow(userTeams!!).collect {
+                _tasksList.value = it
+            }
+        } else {
             tasksRepository.getTasksListFlow().collect {
                 _tasksList.value = it
+            }
         }
     }
 
@@ -48,4 +54,7 @@ class TasksListViewModel @Inject constructor(
         }
     }
 
+    fun setUserTeams(userTeams: Set<TeamData>) {
+        this.userTeams = userTeams
+    }
 }

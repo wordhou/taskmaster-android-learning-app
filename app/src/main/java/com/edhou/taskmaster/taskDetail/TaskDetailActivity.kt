@@ -25,7 +25,6 @@ const val TASK_ID = "TASK_ID"
 
 @AndroidEntryPoint
 class TaskDetailActivity : AppCompatActivity() {
-    // private val tasksListViewModel by viewModels<TasksListViewModel> { TasksListViewModelFactory(this) }
     private lateinit var application: TaskmasterApplication
 
     private val viewModel: TaskDetailViewModel by viewModels()

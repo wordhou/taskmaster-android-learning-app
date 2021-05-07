@@ -81,6 +81,8 @@ dependencies {
     // Dependency injection via Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version" // Hilt testing dependency
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version" // Make Hilt generate code in the androidTest folder
 
 
 }

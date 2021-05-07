@@ -1,6 +1,7 @@
 package com.edhou.taskmaster.taskDetail
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.*
 import com.amplifyframework.datastore.generated.model.TaskData
 import com.edhou.taskmaster.TaskmasterApplication
@@ -30,6 +31,7 @@ class TaskDetailViewModel @Inject constructor(val tasksRepository: TasksReposito
 
     fun delete() {
         viewModelScope.launch(Dispatchers.IO) {
+            Log.i("TaskDetailViewModel", "delete: ${Thread.currentThread().name}")
             tasksRepository.delete(task.value!!)
         }
     }

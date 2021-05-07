@@ -7,46 +7,51 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.observe
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amplifyframework.datastore.generated.model.TaskData
+import com.amplifyframework.datastore.generated.model.TeamData
 import com.edhou.taskmaster.R
 import com.edhou.taskmaster.taskDetail.TASK_ID
 import com.edhou.taskmaster.taskDetail.TaskDetailActivity
 import com.edhou.taskmaster.taskList.TasksAdapter
 import com.edhou.taskmaster.taskList.TasksListViewModel
-import com.edhou.taskmaster.taskList.TasksListViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val TAG = "MAINDEBUG"
     private lateinit var prefs: SharedPreferences
     private lateinit var tasksAdapter: TasksAdapter
 
-    private val viewModel: TasksListViewModel by viewModels{ TasksListViewModelFactory(this) }
+    private val viewModel: TasksListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         findViewById<Button>(R.id.addTaskLinkButton)?.setOnClickListener {
-            startActivity(Intent(this@MainActivity, AddTaskActivity::class.java)) }
+            startActivity(Intent(this@MainActivity, AddTaskActivity::class.java))
+        }
 
         findViewById<Button>(R.id.allTasksButton)?.setOnClickListener {
-            startActivity(Intent(this@MainActivity, AllTasksActivity::class.java)) }
+            startActivity(Intent(this@MainActivity, AllTasksActivity::class.java))
+        }
 
-        findViewById<Button>(R.id.toSettingsButton)?.setOnClickListener{
-            startActivity(Intent(this, SettingsActivity::class.java)) }
+        findViewById<Button>(R.id.toSettingsButton)?.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
 
         prefs = getSharedPreferences(getString(R.string.user_details_shared_preferences), MODE_PRIVATE)
 
-        tasksAdapter = TasksAdapter ({ adapterOnClick(it) }, resources )
+        tasksAdapter = TasksAdapter({ adapterOnClick(it) }, resources)
 
         val recyclerView: RecyclerView = findViewById(R.id.tasksRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(applicationContext)
         recyclerView.adapter = tasksAdapter
 
-        viewModel.tasksList.observe(this,  {
+        viewModel.tasksList.observe(this, Observer {
             tasksAdapter.submitList(it)
         })
     }
@@ -59,8 +64,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        prefs.getString("name", null)?.let {
+        prefs.getString(SettingsActivity.USER_NAME, null)?.let {
             findViewById<TextView>(R.id.myTasksHeading)?.setText("$it's Tasks", TextView.BufferType.NORMAL)
+        }
+        prefs.getStringSet(SettingsActivity.USER_TEAMS, null)?.let {
+            val userTeams = it.map { id -> TeamData.justId(id) }.toSet()
+            viewModel.setUserTeams(userTeams)
         }
 
         viewModel.update()

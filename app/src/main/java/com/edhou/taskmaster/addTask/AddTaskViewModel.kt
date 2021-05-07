@@ -8,9 +8,15 @@ import com.edhou.taskmaster.TaskmasterApplication
 import com.edhou.taskmaster.db.TasksRepository
 import com.edhou.taskmaster.db.TeamsRepository
 import com.edhou.taskmaster.models.Team
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.lang.IllegalArgumentException
+import javax.inject.Inject
 
-class AddTaskViewModel(val tasksRepository: TasksRepository, val teamsRepository: TeamsRepository) : ViewModel() {
+@HiltViewModel
+class AddTaskViewModel @Inject constructor(
+        val tasksRepository: TasksRepository,
+        //val teamsRepository: TeamsRepository
+        ) : ViewModel() {
     private val _currentlySelectedTeam: MutableLiveData<TeamData> = MutableLiveData()
     val currentlySelectedTeam: LiveData<TeamData>
         get() = _currentlySelectedTeam
@@ -22,18 +28,8 @@ class AddTaskViewModel(val tasksRepository: TasksRepository, val teamsRepository
     fun unselectTeam() {
         _currentlySelectedTeam.value = null
     }
-}
 
-class AddTaskViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(AddTaskViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return AddTaskViewModel(
-                    (context.applicationContext as TaskmasterApplication).tasksRepository,
-                    (context.applicationContext as TaskmasterApplication).teamsRepository
-            ) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
+    fun addTask(newTask: TaskData?) {
+        TODO()
     }
-
 }

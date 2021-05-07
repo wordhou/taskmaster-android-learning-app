@@ -15,16 +15,13 @@ import com.amplifyframework.datastore.generated.model.TeamData
 import com.edhou.taskmaster.R
 import com.edhou.taskmaster.TaskmasterApplication
 import com.edhou.taskmaster.addTask.AddTaskViewModel
-import com.edhou.taskmaster.addTask.AddTaskViewModelFactory
 import com.edhou.taskmaster.taskList.TasksListViewModel
-import com.edhou.taskmaster.taskList.TasksListViewModelFactory
 import com.edhou.taskmaster.team.TeamsListViewModel
-import com.edhou.taskmaster.team.TeamsListViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.security.auth.login.LoginException
-import kotlin.math.log
 
+@AndroidEntryPoint
 class AddTaskActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var submitAddTask: Button
     private lateinit var application: TaskmasterApplication
@@ -32,9 +29,12 @@ class AddTaskActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     private lateinit var editTaskDescription: TextView
     private lateinit var teamSelectorSpinner: Spinner
     private lateinit var gotoAddTeamButton: Button
-    private val tasksListViewModel: TasksListViewModel by viewModels { TasksListViewModelFactory(this) }
-    private val teamsListViewModel: TeamsListViewModel by viewModels { TeamsListViewModelFactory(this) }
-    private val addTaskViewModel: AddTaskViewModel by viewModels { AddTaskViewModelFactory(this) }
+//    private val tasksListViewModel: TasksListViewModel by viewModels { TasksListViewModelFactory(this) }
+//    private val teamsListViewModel: TeamsListViewModel by viewModels { TeamsListViewModelFactory(this) }
+//    private val addTaskViewModel: AddTaskViewModel by viewModels { AddTaskViewModelFactory(this) }
+    private val tasksListViewModel: TasksListViewModel by viewModels()
+    private val teamsListViewModel: TeamsListViewModel by viewModels()
+    private val addTaskViewModel: AddTaskViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,7 +89,9 @@ class AddTaskActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
                 .status(Status.NEW)
                 .build()
         lifecycleScope.launch(Dispatchers.IO) {
-            application.tasksRepository.insert(newTask)
+            //tasksRepository.insert(newTask)
+            addTaskViewModel.addTask(newTask)
+            //viewModel should do this
         }
         finish()
     }

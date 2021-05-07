@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin' // Gradle plugin for Hilt
 }
 
 android {
@@ -36,24 +37,23 @@ android {
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5' // Required for amplify
+
     androidTestImplementation 'androidx.test:rules:1.4.0-alpha06'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0-alpha06'
     def lifecycle_version = "2.3.1"
     def ktx_version = "1.3.2"
     def room_version = "2.3.0"
-
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test:runner:1.3.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    // implementation 'androidx.wear:wear:1.0.0'
-    // compileOnly 'com.google.android.wearable:wearable:2.6.0'
-
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5' // Required for amplify
 
     // Android jetpack and lifecycle stuff
     implementation "androidx.core:core-ktx:$ktx_version"
@@ -77,5 +77,12 @@ dependencies {
     implementation 'com.amplifyframework:aws-auth-cognito:1.4.0' // This will eventually be used for user auth?
     implementation 'com.amplifyframework:core-kotlin:0.1.5' // This is the Kotlin FACADE
     implementation 'com.amplifyframework:core:1.17.5'
+
+    // Dependency injection via Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version" // Hilt testing dependency
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version" // Make Hilt generate code in the androidTest folder
+
 
 }

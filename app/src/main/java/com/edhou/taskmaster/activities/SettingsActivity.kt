@@ -13,16 +13,16 @@ import androidx.lifecycle.observe
 import com.amplifyframework.datastore.generated.model.TeamData
 import com.edhou.taskmaster.R
 import com.edhou.taskmaster.taskList.TasksListViewModel
-import com.edhou.taskmaster.taskList.TasksListViewModelFactory
 import com.edhou.taskmaster.team.TeamsListViewModel
-import com.edhou.taskmaster.team.TeamsListViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingsActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     private lateinit var prefs: SharedPreferences
     private lateinit var editPrefs: SharedPreferences.Editor
     private lateinit var multiSelectTeamListView: ListView
     private lateinit var adapter: ArrayAdapter<TeamData>
-    private val teamsListViewModel: TeamsListViewModel by viewModels { TeamsListViewModelFactory(this) }
+    private val teamsListViewModel: TeamsListViewModel by viewModels()
 
     @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,8 +33,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
         adapter = ArrayAdapter(
                 this,
-                R.layout.simple_list_item_multiple_choice,
-                R.id.multChoiceTeamNameText,
+                android.R.layout.simple_list_item_multiple_choice,
                 mutableListOf<TeamData>()
         )
 
@@ -42,7 +41,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
             Log.i(TAG, "observed change in teams list on ${Thread.currentThread().name} thread")
             adapter.clear()
             adapter.addAll(it)
-            adapter.notifyDataSetChanged()
+            updateSelected()
         })
 
         multiSelectTeamListView.adapter = adapter
@@ -55,30 +54,53 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
         findViewById<Button>(R.id.settingsSave)?.setOnClickListener { saveSettings() }
 
-        prefs.getString("name", null)?.let {
-            Log.i("DEBUGSETTINGS", "onCreate: String with key name is $it")
+        prefs.getString(USER_NAME, null)?.let {
             findViewById<EditText>(R.id.editUserName)?.setText(it, TextView.BufferType.EDITABLE)
         }
     }
 
+    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        val checked: SparseBooleanArray = multiSelectTeamListView.checkedItemPositions
+        val team = parent?.getItemAtPosition(position)
+
+        Log.i(TAG, "onClick: ${getSelectedStringSet()}")
+        //editPrefs.putStringSet
+    }
+
+
     private fun saveSettings() {
         findViewById<EditText>(R.id.editUserName)?.text.toString().let {
             Toast.makeText(this@SettingsActivity, "Saving...", Toast.LENGTH_SHORT).show()
-            editPrefs.putString("name", it)
+            editPrefs.putString(USER_NAME, it)
+            editPrefs.putStringSet(USER_TEAMS, getSelectedStringSet())
+            Log.i(TAG, "saveSettings: ${getSelectedStringSet()}")
             editPrefs.apply()
         }
     }
 
-    companion object {
-        const val TAG = "SettingsActivity"
+    private fun getSelectedStringSet(): Set<String> {
+        val checked: SparseBooleanArray = multiSelectTeamListView.checkedItemPositions
+        val result: MutableSet<String> = mutableSetOf<String>()
+
+        for (i in 0 until adapter.count)
+            if (checked.get(i)) adapter.getItem(i)?.id?.let { result.add(it) }
+
+        return result
+    }
+   
+    private fun updateSelected() {
+        val ids = prefs.getStringSet(USER_TEAMS, mutableSetOf<String>())
+        //Log.i(TAG, "updateSelected: $ids")
+        if (ids == null) return;
+        for(i in 0 until adapter.count)
+            if (ids.contains(adapter.getItem(i)?.id)) {
+                multiSelectTeamListView.setItemChecked(i, true)
+            } else multiSelectTeamListView.setItemChecked(i, false)
     }
 
-    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-       // val checked: SparseBooleanArray = multiSelectTeamListView.checkedItemPositions
-        Log.i(TAG, "onItemClick: position: $position")
-        multiSelectTeamListView.setItemChecked(position, true)
-        val team = parent?.getItemAtPosition(position)
-
-        Log.i(TAG, "onClick: $team")
+    companion object {
+        const val USER_NAME = "user_name"
+        const val USER_TEAMS = "user_teams"
+        const val TAG = "SettingsActivity"
     }
 }

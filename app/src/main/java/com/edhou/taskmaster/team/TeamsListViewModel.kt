@@ -8,12 +8,16 @@ import com.amplifyframework.datastore.generated.model.TeamData
 import com.edhou.taskmaster.TaskmasterApplication
 import com.edhou.taskmaster.db.TasksRepository
 import com.edhou.taskmaster.db.TeamsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
+import javax.inject.Inject
 
-class TeamsListViewModel(val teamsRepository: TeamsRepository) : ViewModel() {
+@HiltViewModel
+class TeamsListViewModel @Inject constructor (
+        val teamsRepository: TeamsRepository) : ViewModel() {
     private val _teamsList: MutableLiveData<List<TeamData>> = MutableLiveData()
     val teams: LiveData<List<TeamData>>
         get() = _teamsList
@@ -51,17 +55,4 @@ class TeamsListViewModel(val teamsRepository: TeamsRepository) : ViewModel() {
             updateTeamsList()
         }
     }
-}
-
-class TeamsListViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(TeamsListViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return TeamsListViewModel(
-                    (context.applicationContext as TaskmasterApplication).teamsRepository
-            ) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-
 }

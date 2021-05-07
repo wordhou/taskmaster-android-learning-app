@@ -16,19 +16,19 @@ import com.edhou.taskmaster.activities.AddTaskActivity
 import com.edhou.taskmaster.activities.AddTeam
 import com.edhou.taskmaster.models.Task
 import com.edhou.taskmaster.taskList.TasksListViewModel
-import com.edhou.taskmaster.taskList.TasksListViewModelFactory
 import com.edhou.taskmaster.utils.StatusDisplayer
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 const val TASK_ID = "TASK_ID"
 
+@AndroidEntryPoint
 class TaskDetailActivity : AppCompatActivity() {
-    // private val tasksListViewModel by viewModels<TasksListViewModel> { TasksListViewModelFactory(this) }
     private lateinit var application: TaskmasterApplication
 
-    private val viewModel: TaskDetailViewModel by viewModels { TaskDetailViewModelFactory(this) }
-    private val tasksListViewModel: TasksListViewModel by viewModels { TasksListViewModelFactory(this) }
+    private val viewModel: TaskDetailViewModel by viewModels()
+    private val tasksListViewModel: TasksListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

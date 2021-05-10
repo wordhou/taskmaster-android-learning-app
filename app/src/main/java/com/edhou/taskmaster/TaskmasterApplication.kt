@@ -14,10 +14,6 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class TaskmasterApplication : Application() {
-    //val database by lazy { AppDatabase.getInstance(this) }
-    //val tasksRepository by lazy { TasksRepository(database.tasksDao()) }
-    //val teamsRepository by lazy { TeamsRepository() }
-
     override fun onCreate() {
         Log.i("App", "Creating application context")
         super.onCreate()

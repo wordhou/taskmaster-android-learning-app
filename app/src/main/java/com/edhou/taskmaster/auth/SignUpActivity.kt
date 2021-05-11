@@ -53,6 +53,11 @@ class SignUpActivity : AppCompatActivity(), AuthViewModel.SignUpHandler {
         when(error) {
             is UsernameExistsException -> {
                 Log.i(TAG, "handleError: UsernameExistsException")
+                Toast.makeText(this, "Username has already been taken. Please choose another username.", Toast.LENGTH_LONG)
+            }
+            is AuthException.InvalidParameterException -> {
+                Log.i(TAG, "handleError: InvalidParameterException")
+                Toast.makeText(this, "Password must be 6 characters or longer!", Toast.LENGTH_LONG)
             }
             else -> {
                 Log.e(TAG, "handleError: $error")

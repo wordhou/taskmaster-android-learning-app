@@ -6,6 +6,7 @@ import com.amplifyframework.AmplifyException
 import com.amplifyframework.api.aws.AWSApiPlugin
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin
 import com.edhou.taskmaster.db.AppDatabase
 import com.edhou.taskmaster.db.TasksRepository
 import com.edhou.taskmaster.db.TeamsRepository
@@ -20,6 +21,7 @@ class TaskmasterApplication : Application() {
         try {
             Amplify.addPlugin(AWSApiPlugin())
             Amplify.addPlugin(AWSCognitoAuthPlugin())
+            Amplify.addPlugin(AWSS3StoragePlugin())
             Amplify.configure(applicationContext)
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (e: AmplifyException) {

@@ -1,0 +1,57 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".auth.ConfirmSignUpActivity">
+
+    <TextView
+        android:id="@+id/confirmSignUpHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/confirm_sign_up"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+<EditText
+    android:id="@+id/editTextConfirmSignUpEmail"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="32dp"
+    android:layout_marginTop="32dp"
+    android:autofillHints=""
+    android:ems="10"
+    android:hint="@string/email_address"
+    android:inputType="textEmailAddress"
+    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/confirmSignUpHeader" />
+
+<EditText
+    android:id="@+id/editTextConfirmationCode"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="32dp"
+    android:layout_marginTop="32dp"
+    android:autofillHints=""
+    android:ems="10"
+    android:hint="@string/password"
+    android:inputType="numberPassword"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/editTextConfirmSignUpEmail" />
+
+<Button
+    android:id="@+id/submitSignUpConfirmation"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="32dp"
+    android:layout_marginTop="32dp"
+    android:text="@string/submit"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/editTextConfirmationCode" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

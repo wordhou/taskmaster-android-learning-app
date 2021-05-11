@@ -76,9 +76,9 @@ dependencies {
 
     // Amplify stuff
     implementation 'com.amplifyframework:aws-api:1.17.5' // I think this is what lets us use Amplify GraphQL api
-    implementation 'com.amplifyframework:aws-auth-cognito:1.17.5' // This will eventually be used for user auth?
     implementation 'com.amplifyframework:core-kotlin:0.1.5' // This is the Kotlin FACADE
     implementation 'com.amplifyframework:core:1.17.5'
+    implementation 'com.amplifyframework:aws-auth-cognito:1.17.5' // For Auth
 
     // Dependency injection via Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"

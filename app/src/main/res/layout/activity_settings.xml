@@ -10,8 +10,8 @@
         android:id="@+id/settingsHeading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
         android:text="@string/settings_heading"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,8 +21,8 @@
         android:id="@+id/editUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="12dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/add_your_name"
@@ -37,8 +37,8 @@
         android:layout_marginBottom="16dp"
         android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.591"
+        app:layout_constraintEnd_toStartOf="@+id/buttonLinkSignUp"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ListView
@@ -49,11 +49,42 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/settingsSave"
+        app:layout_constraintBottom_toTopOf="@+id/loggedInStatus"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editUserName"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/editUserName" />
+
+    <Button
+        android:id="@+id/buttonLinkSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_up"
+        app:layout_constraintBottom_toBottomOf="@+id/settingsSave"
+        app:layout_constraintEnd_toStartOf="@+id/buttonLinkLogIn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/settingsSave" />
+
+    <Button
+        android:id="@+id/buttonLinkLogIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/log_in"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonLinkSignUp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/buttonLinkSignUp" />
+
+    <TextView
+        android:id="@+id/loggedInStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintBottom_toTopOf="@+id/buttonLinkSignUp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

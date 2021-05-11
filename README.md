@@ -47,3 +47,29 @@ I also added a Task status to my Task model and added some methods to the Status
 I added the real database using Room, by defining my `TasksDao` and `AppDatabase`, and also wrapped all of the database queries in a `TasksRepository` class. I had to implement a Singleton manager pattern in the `AppDatabase` and then added a singleton instance to the `Application` object to make it available to all the activities. Then I replaced all the calls to my `MockListDao` with the real repository and wrapped those calls in coroutines that ran on IO threads to not block the main thread with database queries.
 
 ![Main view from day 4](screenshots/day-4-main-task-list.png)
+
+## Day 5
+
+Adding integration testing with Espresso.
+
+## Day 6
+
+Some polishing of the app.
+
+## Day 7
+
+The app now runs on Amplify, connecting to the DynamoDB backend using a GraphQL endpoint and Amplify to build the GraphQL queries.
+
+## Day 8
+
+The app now has teams, and the tasks can be assigned to teams. Users can select which teams they are a part of, and their feed now filters out their tasks by the team that they're a part of.
+
+## Day 9
+
+## Day 10
+
+The app now has a working sign-in workflow, with Sign Up, Confirm, and Sign In activities that call the Amplify auth backend.
+
+![Sign Up Workflow](./screenshots/day-10-sign-in-workflow.png)
+
+The sign up and sign in buttons are available from the Settings page, and the app displays a text line in the Settings page to indicate whether the user is logged in. Currently the log in is not connected with any other functionality.

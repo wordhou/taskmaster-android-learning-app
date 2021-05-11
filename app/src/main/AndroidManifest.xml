@@ -3,10 +3,11 @@
     package="com.edhou.taskmaster">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-feature android:name="android.hardware.type.watch" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".TaskmasterApplication"
@@ -16,7 +17,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TaskMaster">
-        <activity android:name=".activities.AddTeam"></activity>
+        <activity android:name=".auth.ConfirmSignUpActivity"></activity>
+        <activity android:name=".auth.SignInActivity" />
+        <activity
+            android:name=".auth.SignUpActivity"
+            android:label="@string/title_activity_sign_up" />
+        <!--
+               Set to true if your app is Standalone, that is, it does not require the handheld
+               app to run.
+        -->
+        <activity android:name=".activities.AddTeam" />
         <activity android:name=".taskDetail.TaskDetailActivity" />
         <activity android:name=".activities.SettingsActivity" />
         <activity

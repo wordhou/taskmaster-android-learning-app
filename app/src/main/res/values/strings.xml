@@ -28,5 +28,19 @@
     <string name="status_complete">Complete</string>
     <string name="add_team">Add Team</string>
     <string name="team_name_hint">Team Name</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="submit">Submit</string>
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="confirm_sign_up">Confirm Sign Up</string>
+    <string name="log_out">Log out</string>
+    <string name="log_in">Log In</string>
 
 </resources>

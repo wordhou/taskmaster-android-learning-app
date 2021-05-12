@@ -42,5 +42,6 @@
     <string name="confirm_sign_up">Confirm Sign Up</string>
     <string name="log_out">Log out</string>
     <string name="log_in">Log In</string>
+    <string name="msg_token_fmt">Token: %s</string>
 
 </resources>

@@ -73,3 +73,9 @@ The app now has a working sign-in workflow, with Sign Up, Confirm, and Sign In a
 ![Sign Up Workflow](./screenshots/day-10-sign-in-workflow.png)
 
 The sign up and sign in buttons are available from the Settings page, and the app displays a text line in the Settings page to indicate whether the user is logged in. Currently the log in is not connected with any other functionality.
+
+## Day 11
+
+The app can upload images for a given task on the task detail page. The image for a task is loaded on the task detail page if it exists.
+
+![Image upload workflow](screenshots/day-11-image-upload.jpg)

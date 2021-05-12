@@ -85,15 +85,7 @@ public final class TeamData implements Model {
   
   @Override
    public String toString() {
-            return name;
-//      return new StringBuilder()
-//      .append("TeamData {")
-//      .append("id=" + String.valueOf(getId()) + ", ")
-//      .append("name=" + String.valueOf(getName()) + ", ")
-//      .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
-//      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
-//      .append("}")
-//      .toString();
+      return name;
   }
   
   public static NameStep builder() {

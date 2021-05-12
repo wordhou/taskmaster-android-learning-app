@@ -7,15 +7,10 @@ import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.datastore.generated.model.TaskData
 import com.amplifyframework.datastore.generated.model.TeamData
 import com.amplifyframework.kotlin.core.Amplify
-import com.edhou.taskmaster.models.Task
-import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.coroutineContext
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
-import javax.security.auth.login.LoginException
 
 @Singleton
 class TasksRepository @Inject constructor(private val tasksDao: TasksDao) {
@@ -67,14 +62,6 @@ class TasksRepository @Inject constructor(private val tasksDao: TasksDao) {
         }
         //tasksDao.insert(Task.fromAmplify(taskData))
     }
-//
-//    suspend fun insert(task: Task) {
-//        insert(task.amplify())
-//    }
-//
-//    suspend fun delete(task: Task) {
-//        delete(task.amplify())
-//    }
 
     suspend fun delete(taskData: TaskData) {
         //tasksDao.delete(Task.fromAmplify(taskData))
@@ -87,7 +74,13 @@ class TasksRepository @Inject constructor(private val tasksDao: TasksDao) {
         }
     }
 
-    suspend fun update(task: Task) {
-        //tasksDao.update(task)
+    suspend fun update(taskData: TaskData) {
+        Log.i(TAG, "updating $taskData")
+        try {
+            val response = Amplify.API.mutate(ModelMutation.update(taskData)).data
+            Log.i(TAG, "update successful: $taskData")
+        } catch(error: ApiException) {
+            Log.e(TAG, "update: " + taskData.toString(), error)
+        }
     }
 }

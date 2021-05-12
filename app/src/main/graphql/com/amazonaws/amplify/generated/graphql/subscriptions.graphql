@@ -6,6 +6,7 @@ subscription OnCreateTaskData {
     description
     status
     teamID
+    hasPicture
     team {
       id
       name
@@ -23,6 +24,7 @@ subscription OnUpdateTaskData {
     description
     status
     teamID
+    hasPicture
     team {
       id
       name
@@ -40,6 +42,7 @@ subscription OnDeleteTaskData {
     description
     status
     teamID
+    hasPicture
     team {
       id
       name

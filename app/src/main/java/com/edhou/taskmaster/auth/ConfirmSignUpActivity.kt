@@ -40,7 +40,7 @@ class ConfirmSignUpActivity : AppCompatActivity(), AuthViewModel.ConfirmationHan
     }
 
     override fun handleSignUpComplete() {
-        Log.i(TAG, "handleSignUpComplete: :) :) :)")
+        Log.i(TAG, "handleSignUpComplete:")
         val returnIntent = Intent()
         returnIntent.putExtra("confirmation", true);
         setResult(Activity.RESULT_OK, returnIntent);

@@ -26,6 +26,7 @@ public final class TaskData implements Model {
   public static final QueryField NAME = field("TaskData", "name");
   public static final QueryField DESCRIPTION = field("TaskData", "description");
   public static final QueryField STATUS = field("TaskData", "status");
+  public static final QueryField HAS_PICTURE = field("TaskData", "hasPicture");
   public static final QueryField TEAM = field("TaskData", "teamID");
   public static final QueryField CREATED_AT = field("TaskData", "createdAt");
   public static final QueryField UPDATED_AT = field("TaskData", "updatedAt");
@@ -33,6 +34,7 @@ public final class TaskData implements Model {
   private final @ModelField(targetType="String", isRequired = true) String name;
   private final @ModelField(targetType="String") String description;
   private final @ModelField(targetType="Status") Status status;
+  private @ModelField(targetType="Boolean") Boolean hasPicture = false; // ADDED MANUAL DEFAULT
   private final @ModelField(targetType="TeamData") @BelongsTo(targetName = "teamID", type = TeamData.class) TeamData team;
   private final @ModelField(targetType="AWSDateTime") Temporal.DateTime createdAt;
   private final @ModelField(targetType="AWSDateTime") Temporal.DateTime updatedAt;
@@ -52,6 +54,10 @@ public final class TaskData implements Model {
       return status;
   }
   
+  public Boolean getHasPicture() {
+      return hasPicture;
+  }
+  
   public TeamData getTeam() {
       return team;
   }
@@ -64,11 +70,12 @@ public final class TaskData implements Model {
       return updatedAt;
   }
   
-  private TaskData(String id, String name, String description, Status status, TeamData team, Temporal.DateTime createdAt, Temporal.DateTime updatedAt) {
+  private TaskData(String id, String name, String description, Status status, Boolean hasPicture, TeamData team, Temporal.DateTime createdAt, Temporal.DateTime updatedAt) {
     this.id = id;
     this.name = name;
     this.description = description;
     this.status = status;
+    this.hasPicture = hasPicture;
     this.team = team;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
@@ -86,6 +93,7 @@ public final class TaskData implements Model {
               ObjectsCompat.equals(getName(), taskData.getName()) &&
               ObjectsCompat.equals(getDescription(), taskData.getDescription()) &&
               ObjectsCompat.equals(getStatus(), taskData.getStatus()) &&
+              ObjectsCompat.equals(getHasPicture(), taskData.getHasPicture()) &&
               ObjectsCompat.equals(getTeam(), taskData.getTeam()) &&
               ObjectsCompat.equals(getCreatedAt(), taskData.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), taskData.getUpdatedAt());
@@ -99,6 +107,7 @@ public final class TaskData implements Model {
       .append(getName())
       .append(getDescription())
       .append(getStatus())
+      .append(getHasPicture())
       .append(getTeam())
       .append(getCreatedAt())
       .append(getUpdatedAt())
@@ -114,6 +123,7 @@ public final class TaskData implements Model {
       .append("name=" + String.valueOf(getName()) + ", ")
       .append("description=" + String.valueOf(getDescription()) + ", ")
       .append("status=" + String.valueOf(getStatus()) + ", ")
+      .append("hasPicture=" + String.valueOf(getHasPicture()) + ", ")
       .append("team=" + String.valueOf(getTeam()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
@@ -151,6 +161,7 @@ public final class TaskData implements Model {
       null,
       null,
       null,
+      null,
       null
     );
   }
@@ -160,6 +171,7 @@ public final class TaskData implements Model {
       name,
       description,
       status,
+      hasPicture,
       team,
       createdAt,
       updatedAt);
@@ -174,6 +186,7 @@ public final class TaskData implements Model {
     BuildStep id(String id) throws IllegalArgumentException;
     BuildStep description(String description);
     BuildStep status(Status status);
+    BuildStep hasPicture(Boolean hasPicture);
     BuildStep team(TeamData team);
     BuildStep createdAt(Temporal.DateTime createdAt);
     BuildStep updatedAt(Temporal.DateTime updatedAt);
@@ -185,6 +198,7 @@ public final class TaskData implements Model {
     private String name;
     private String description;
     private Status status;
+    private Boolean hasPicture;
     private TeamData team;
     private Temporal.DateTime createdAt;
     private Temporal.DateTime updatedAt;
@@ -197,6 +211,7 @@ public final class TaskData implements Model {
           name,
           description,
           status,
+          hasPicture,
           team,
           createdAt,
           updatedAt);
@@ -218,6 +233,12 @@ public final class TaskData implements Model {
     @Override
      public BuildStep status(Status status) {
         this.status = status;
+        return this;
+    }
+    
+    @Override
+     public BuildStep hasPicture(Boolean hasPicture) {
+        this.hasPicture = hasPicture;
         return this;
     }
     
@@ -262,11 +283,12 @@ public final class TaskData implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String name, String description, Status status, TeamData team, Temporal.DateTime createdAt, Temporal.DateTime updatedAt) {
+    private CopyOfBuilder(String id, String name, String description, Status status, Boolean hasPicture, TeamData team, Temporal.DateTime createdAt, Temporal.DateTime updatedAt) {
       super.id(id);
       super.name(name)
         .description(description)
         .status(status)
+        .hasPicture(hasPicture)
         .team(team)
         .createdAt(createdAt)
         .updatedAt(updatedAt);
@@ -285,6 +307,11 @@ public final class TaskData implements Model {
     @Override
      public CopyOfBuilder status(Status status) {
       return (CopyOfBuilder) super.status(status);
+    }
+    
+    @Override
+     public CopyOfBuilder hasPicture(Boolean hasPicture) {
+      return (CopyOfBuilder) super.hasPicture(hasPicture);
     }
     
     @Override

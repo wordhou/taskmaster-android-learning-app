@@ -5,6 +5,7 @@ type TaskData @model
   description: String
   status: Status
   teamID: ID!
+  hasPicture: Boolean
   team: TeamData @connection(fields: ["teamID"])
   createdAt: AWSDateTime
   updatedAt: AWSDateTime

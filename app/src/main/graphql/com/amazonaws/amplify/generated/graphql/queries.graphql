@@ -6,6 +6,7 @@ query GetTaskData($id: ID!) {
     description
     status
     teamID
+    hasPicture
     team {
       id
       name
@@ -28,6 +29,7 @@ query ListTaskDatas(
       description
       status
       teamID
+      hasPicture
       createdAt
       updatedAt
     }

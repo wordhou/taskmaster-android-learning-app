@@ -43,5 +43,6 @@
     <string name="log_out">Log out</string>
     <string name="log_in">Log In</string>
     <string name="msg_token_fmt">Token: %s</string>
+    <string name="notification_received">Notification received! %s</string>
 
 </resources>

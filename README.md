@@ -79,3 +79,9 @@ The sign up and sign in buttons are available from the Settings page, and the ap
 The app can upload images for a given task on the task detail page. The image for a task is loaded on the task detail page if it exists.
 
 ![Image upload workflow](screenshots/day-11-image-upload.jpg)
+
+## Day 12
+
+The app can now receive notifications broadcast by Firebase Cloud Messaging. Currently the app makes a toast when a message is received while the app is in the foreground.
+
+![Sign up](screenshots/day-12-push-notification.png)

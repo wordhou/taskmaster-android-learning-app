@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.amplifyframework.datastore.generated.model.TaskData
 import com.amplifyframework.datastore.generated.model.TeamData
 import com.edhou.taskmaster.R
+import com.edhou.taskmaster.addTask.AddTaskActivity
 import com.edhou.taskmaster.taskDetail.TASK_ID
 import com.edhou.taskmaster.taskDetail.TaskDetailActivity
 import com.edhou.taskmaster.taskList.TasksAdapter

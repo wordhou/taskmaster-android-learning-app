@@ -85,3 +85,13 @@ The app can upload images for a given task on the task detail page. The image fo
 The app can now receive notifications broadcast by Firebase Cloud Messaging. Currently the app makes a toast when a message is received while the app is in the foreground.
 
 ![Sign up](screenshots/day-12-push-notification.png)
+
+## Day 13
+
+## Day 14
+
+I allowed users to select an image in the Add Task activity. I provided a preview image view in the add task activity for the selected image.
+
+Then I allowed users to use the Taskmaster application for the Send action so the app appears in the application tray when a user selects "Share" on an image or a text selection.
+
+![Share image intent](screenshots/day-12-push-notification.png)

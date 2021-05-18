@@ -1,6 +1,8 @@
 package com.edhou.taskmaster.addTask
 
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -34,6 +36,7 @@ class AddTaskActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     private lateinit var editTaskDescription: TextView
     private lateinit var teamSelectorSpinner: Spinner
     private lateinit var gotoAddTeamButton: Button
+    private lateinit var previewImageView: ImageView
     private lateinit var addTaskUploadButton: Button
     private val tasksListViewModel: TasksListViewModel by viewModels()
     private val teamsListViewModel: TeamsListViewModel by viewModels()
@@ -42,7 +45,7 @@ class AddTaskActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     @RequiresApi(Build.VERSION_CODES.Q)
     private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         uri?.let {
-            Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show()
+            Log.i(TAG, "activityResult uri: $it")
             val inputStream = contentResolver.openInputStream(uri)
             if (inputStream != null) {
                 addTaskViewModel.saveImage(inputStream, applicationContext.filesDir)
@@ -61,6 +64,7 @@ class AddTaskActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
         teamSelectorSpinner = findViewById(R.id.teamSelectSpinner)
         gotoAddTeamButton = findViewById(R.id.addTaskToAddTeamButton)
         addTaskUploadButton = findViewById(R.id.addTaskUploadButton)
+        previewImageView = findViewById(R.id.addTaskImageView)
         submitAddTask = findViewById(R.id.addTaskButton)
 
         submitAddTask.setOnClickListener { submitTask() }
@@ -71,7 +75,7 @@ class AddTaskActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
                 R.layout.simple_list_item_team,
                 R.id.simpleListItemText,
                 viewTeamsList
-                )
+        )
 
         teamSelectorSpinner.adapter = adapter
         teamSelectorSpinner.onItemSelectedListener = this
@@ -82,38 +86,58 @@ class AddTaskActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
             adapter.addAll(it)
         })
 
-        gotoAddTeamButton?.setOnClickListener {
+        gotoAddTeamButton.setOnClickListener {
             startActivity(Intent(this@AddTaskActivity, AddTeam::class.java))
         }
 
-        addTaskUploadButton?.setOnClickListener {
+        addTaskUploadButton.setOnClickListener {
             getContent.launch("image/*")
         }
 
         addTaskViewModel.finishedAddTask.observe(this, Observer {
             if (it) finish()
         })
+
+        addTaskViewModel.image.observe(this, Observer {
+            previewImageView.setImageBitmap(it)
+        })
+
+        when (intent.type) {
+            "text/plain" -> handleIntentPlainText(intent)
+            "image/jpeg", "image/jpg", "image/png", "image/gif", "image/bmp" -> handleIntentImage(intent)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun handleIntentImage(intent: Intent) {
+        val stream = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
+
+        stream?.let {
+            Log.i(TAG, "activityResult uri: $it")
+            val inputStream = contentResolver.openInputStream(it)
+            if (inputStream != null) {
+                Log.i(TAG, "handleIntentImage: calling viewModel.saveImage()")
+                addTaskViewModel.saveImage(inputStream, applicationContext.filesDir)
+            }
+        }
+
+    }
+
+    private fun handleIntentPlainText(intent: Intent) {
+
     }
 
     private fun submitTask() {
         if (editTaskName.text.isBlank()) {
             Toast.makeText(this, "Name cannot be blank", Toast.LENGTH_SHORT).show()
-            return;
+            return
         }
         val currentTeam = addTaskViewModel.currentlySelectedTeam.value
         if (currentTeam == null) {
             Toast.makeText(this, "A team needs to be selected", Toast.LENGTH_SHORT).show()
-            return;
+            return
         }
-//        val newTask = TaskData.builder()
-//                .name(editTaskName.text.toString())
-//                .description(editTaskDescription.text.toString())
-//                //.team(currentTeam)
-//                //.status(Status.NEW)
-//                .build()
-        lifecycleScope.launch(Dispatchers.IO) {
-            addTaskViewModel.addTask(editTaskName.text.toString(), editTaskDescription.text.toString())
-        }
+        addTaskViewModel.addTask(editTaskName.text.toString(), editTaskDescription.text.toString())
     }
 
     override fun onResume() {
@@ -134,6 +158,6 @@ class AddTaskActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     }
 
     companion object {
-        private final val TAG : String = "AddTaskActivity"
+        private val TAG: String = "AddTaskActivity"
     }
 }

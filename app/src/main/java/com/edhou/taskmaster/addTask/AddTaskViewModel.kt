@@ -1,5 +1,7 @@
 package com.edhou.taskmaster.addTask
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.FileUtils
@@ -37,6 +39,11 @@ class AddTaskViewModel @Inject constructor(
 
     val currentlySelectedTeam: LiveData<TeamData>
         get() = _currentlySelectedTeam
+
+    val _image: MutableLiveData<Bitmap> = MutableLiveData()
+    val image: LiveData<Bitmap>
+        get() = _image
+
     private var tempFile: File? = null;
 
     fun selectTeam(teamData: TeamData) { _currentlySelectedTeam.value = teamData }
@@ -79,24 +86,13 @@ class AddTaskViewModel @Inject constructor(
                 outputStream.close()
             }
         }
+        updateBitmap(tempFile)
     }
 
-    fun uploadPhoto(inputStream: InputStream, handler: UploadPhotoHandler) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            try {
-//                task.value?.let {
-//                    val progress = Amplify.Storage.uploadInputStream(it.id, inputStream)
-//                    Log.i(TaskDetailViewModel.TAG, "uploadPhoto: progress $progress")
-//                    val result = progress.result()
-//                    Log.i(TaskDetailViewModel.TAG, "uploadPhoto: result $result")
-//                    inputStream.close()
-//                    handler.handleImageUploadSuccess()
-//                }
-//            } catch (e: Exception) {
-//                Log.e(TaskDetailViewModel.TAG, "uploadPhoto: Exception on file upload $e")
-//                handler.handleImageUploadError()
-//            }
-//        }
+    private fun updateBitmap(file: File?) {
+        file?.let {
+            _image.value = BitmapFactory.decodeFile(it.path)
+        }
     }
 
     interface UploadPhotoHandler {

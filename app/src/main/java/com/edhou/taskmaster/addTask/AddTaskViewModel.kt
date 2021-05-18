@@ -7,12 +7,16 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import com.amplifyframework.api.graphql.model.ModelMutation
+import com.amplifyframework.datastore.generated.model.Status
 import com.amplifyframework.datastore.generated.model.TaskData
 import com.amplifyframework.datastore.generated.model.TeamData
 import com.amplifyframework.kotlin.core.Amplify
+import com.amplifyframework.kotlin.storage.Storage
+import com.amplifyframework.storage.result.StorageUploadFileResult
 import com.edhou.taskmaster.db.TasksRepository
 import com.edhou.taskmaster.taskDetail.TaskDetailViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -35,26 +39,26 @@ class AddTaskViewModel @Inject constructor(
         get() = _currentlySelectedTeam
     private var tempFile: File? = null;
 
-    fun selectTeam(teamData: TeamData) {
-        _currentlySelectedTeam.value = teamData
-    }
+    fun selectTeam(teamData: TeamData) { _currentlySelectedTeam.value = teamData }
 
-    fun unselectTeam() {
-        _currentlySelectedTeam.value = null
-    }
+    fun unselectTeam() { _currentlySelectedTeam.value = null }
 
-    fun addTask(newTask: TaskData) {
+    fun addTask(name: String, description: String?) {
+        val newTask: TaskData = TaskData.builder()
+                .name(name)
+                .description(description)
+                .status(Status.NEW)
+                .team(currentlySelectedTeam.value)
+                .hasPicture(tempFile != null)
+                .build()
+
         viewModelScope.launch {
             try {
+                val progress = tempFile?.let { Amplify.Storage.uploadFile(newTask.id, it) }
                 val response = async { Amplify.API.mutate(ModelMutation.create(newTask)) }
-                if (tempFile != null) {
-                    val progress = async { Amplify.Storage.uploadFile(newTask.id, tempFile!!) }
-                    val result = progress.await().result()
-                    Log.i(TAG, "addTask API call: ${response.await()}")
-                    Log.i(TaskDetailViewModel.TAG, "addTask uploadPhoto: $result")
-                } else {
-                    Log.i(TAG, "addTask API call: ${response.await()}")
-                }
+                val uploadFileResult = progress?.result()
+                Log.i(TaskDetailViewModel.TAG, "addTask uploadPhoto: $uploadFileResult")
+                Log.i(TAG, "addTask API call: ${response.await()}")
                 _finishedAddTask.postValue(true)
             } catch (e: Exception) {
                 Log.e(TAG, "addTask: $e")
@@ -69,6 +73,7 @@ class AddTaskViewModel @Inject constructor(
             val outputStream = FileOutputStream(tempFile)
             try {
                 FileUtils.copy(inputStream, outputStream)
+                Log.i(TAG, "saveImage: Temp imaged saved to filesystem at ${tempFile!!.path}")
             } finally {
                 inputStream.close()
                 outputStream.close()

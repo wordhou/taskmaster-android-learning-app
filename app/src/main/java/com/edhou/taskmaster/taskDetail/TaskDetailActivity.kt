@@ -65,7 +65,7 @@ class TaskDetailActivity : AppCompatActivity(), TaskDetailViewModel.UploadPhotoH
                 taskName.text = name
                 taskDescription.text = description
                 taskStatus.text = StatusDisplayer.statusToString(status, resources)
-                viewModel.downloadPhoto(applicationContext.filesDir)
+                if (it.hasPicture != null && it.hasPicture) viewModel.downloadPhoto(applicationContext.filesDir)
             }
         })
 

@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.*
+import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.datastore.generated.model.TaskData
 import com.amplifyframework.kotlin.core.Amplify
 import com.amplifyframework.kotlin.storage.Storage
@@ -11,6 +12,7 @@ import com.amplifyframework.storage.result.StorageDownloadFileResult
 import com.edhou.taskmaster.db.TasksRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -46,16 +48,19 @@ class TaskDetailViewModel @Inject constructor(val tasksRepository: TasksReposito
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 task.value?.let {
+                    val updatedTask = it.copyOfBuilder().hasPicture(true).build()
+                    val apiResponse = async { Amplify.API.mutate(ModelMutation.update(it)) }
                     val progress = Amplify.Storage.uploadInputStream(it.id, inputStream)
-                    Log.i(TAG, "uploadPhoto: progress $progress")
                     val result = progress.result()
                     Log.i(TAG, "uploadPhoto: result $result")
-                    inputStream.close()
+                    Log.i(TAG, "apiResponse: result ${apiResponse.await()}")
                     handler.handleImageUploadSuccess()
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "uploadPhoto: Exception on file upload $e")
                 handler.handleImageUploadError()
+            } finally {
+                inputStream.close()
             }
         }
     }

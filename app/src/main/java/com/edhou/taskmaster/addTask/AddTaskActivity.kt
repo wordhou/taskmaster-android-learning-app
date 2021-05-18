@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import com.amplifyframework.datastore.generated.model.Status
@@ -88,6 +89,10 @@ class AddTaskActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
         addTaskUploadButton?.setOnClickListener {
             getContent.launch("image/*")
         }
+
+        addTaskViewModel.finishedAddTask.observe(this, Observer {
+            if (it) finish()
+        })
     }
 
     private fun submitTask() {
@@ -100,14 +105,14 @@ class AddTaskActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
             Toast.makeText(this, "A team needs to be selected", Toast.LENGTH_SHORT).show()
             return;
         }
-        val newTask = TaskData.builder()
-                .name(editTaskName.text.toString())
-                .description(editTaskDescription.text.toString())
-                .team(currentTeam)
-                .status(Status.NEW)
-                .build()
+//        val newTask = TaskData.builder()
+//                .name(editTaskName.text.toString())
+//                .description(editTaskDescription.text.toString())
+//                //.team(currentTeam)
+//                //.status(Status.NEW)
+//                .build()
         lifecycleScope.launch(Dispatchers.IO) {
-            addTaskViewModel.addTask(newTask)
+            addTaskViewModel.addTask(editTaskName.text.toString(), editTaskDescription.text.toString())
         }
     }
 

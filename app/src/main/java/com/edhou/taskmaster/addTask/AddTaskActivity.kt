@@ -1,12 +1,10 @@
 package com.edhou.taskmaster.addTask
 
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.FileUtils
 import android.util.Log
 import android.view.View
 import android.widget.*
@@ -14,10 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
-import com.amplifyframework.datastore.generated.model.Status
-import com.amplifyframework.datastore.generated.model.TaskData
 import com.amplifyframework.datastore.generated.model.TeamData
 import com.edhou.taskmaster.R
 import com.edhou.taskmaster.TaskmasterApplication
@@ -25,8 +20,6 @@ import com.edhou.taskmaster.activities.AddTeam
 import com.edhou.taskmaster.taskList.TasksListViewModel
 import com.edhou.taskmaster.team.TeamsListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AddTaskActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
@@ -103,15 +96,16 @@ class AddTaskActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
         })
 
         when (intent.type) {
-            "text/plain" -> handleIntentPlainText(intent)
-            "image/jpeg", "image/jpg", "image/png", "image/gif", "image/bmp" -> handleIntentImage(intent)
+            "text/plain" -> handleIntentPlainText(intent.getStringExtra(Intent.EXTRA_TEXT));
+            "image/jpeg",
+            "image/png",
+            "image/gif",
+            "image/bmp" -> handleIntentImage(intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM))
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
-    private fun handleIntentImage(intent: Intent) {
-        val stream = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
-
+    private fun handleIntentImage(stream: Uri?) {
         stream?.let {
             Log.i(TAG, "activityResult uri: $it")
             val inputStream = contentResolver.openInputStream(it)
@@ -120,11 +114,10 @@ class AddTaskActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
                 addTaskViewModel.saveImage(inputStream, applicationContext.filesDir)
             }
         }
-
     }
 
-    private fun handleIntentPlainText(intent: Intent) {
-
+    private fun handleIntentPlainText(text: String?) {
+        text?.let { editTaskName.text = it }
     }
 
     private fun submitTask() {
